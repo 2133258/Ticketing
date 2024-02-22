@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Styles\shutdown_def.png" />
+    <None Remove="Styles\shutdown_mo.png" />
+    <None Remove="Views\Events\SimonLeblanc-580x614.jpg" />
+    <None Remove="Views\Template\calendar.png" />
+    <None Remove="Views\Template\report.png" />
+    <None Remove="Views\Template\setting.png" />
+    <None Remove="Views\Template\theater.png" />
+    <None Remove="Views\Template\transaction.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="XamlStyler.Console" Version="3.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TicketingDatabase">
+      <HintPath>TicketingDatabase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Styles\shutdown_def.png" />
+    <Resource Include="Styles\shutdown_mo.png" />
+    <Resource Include="Views\Events\SimonLeblanc-580x614.jpg" />
+    <Resource Include="Views\Template\calendar.png" />
+    <Resource Include="Views\Template\report.png" />
+    <Resource Include="Views\Template\setting.png" />
+    <Resource Include="Views\Template\theater.png" />
+    <Resource Include="Views\Template\transaction.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Images\Events\" />
+  </ItemGroup>
+
+</Project>
