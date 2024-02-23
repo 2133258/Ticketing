@@ -20,10 +20,14 @@ namespace AdministratorApp.ViewModels
         public NavigationVM(TicketingContext context)
         {
             _context = context;
+            currentViews = new List<object>();
         }
 
         [ObservableProperty]
         object currentView;
+        
+        [ObservableProperty]
+        List<object> currentViews;
 
         [ObservableProperty]
         User user;
@@ -34,10 +38,25 @@ namespace AdministratorApp.ViewModels
         #region Commandes
 
         [RelayCommand]
-        public void EventList(object obj) => CurrentView = new Views.Events.List(_context);
+        public void EventList(object obj)
+        { 
+            CurrentViews.Clear();
+            CurrentView = new Views.Events.List(_context, this);
+            CurrentViews.Add(CurrentView);
+        }
 
-        //[RelayCommand]
-        //private void EmployeList(object obj) => CurrentView = new EmployeeListView(_context);
+        [RelayCommand]
+        public void EventCreate(object obj) => CurrentView = new Views.Events.CreateEdit(_context, false, this);
+        [RelayCommand]
+        public void EventEdit(object obj) => CurrentView = new Views.Events.CreateEdit(_context, true, this);
+
+        [RelayCommand]
+        private void RoomOverview(object obj)
+        {
+            CurrentViews.Clear();
+            CurrentView = new Views.RoomConfig.FullView(_context, this);
+            CurrentViews.Add(CurrentView);
+        }
 
         //[RelayCommand]
         //private void DepartementList(object obj) => CurrentView = new DepartementListView(_context);

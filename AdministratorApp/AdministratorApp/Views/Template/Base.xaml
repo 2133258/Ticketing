@@ -42,7 +42,7 @@
                     </StackPanel>
                         
 
-                    <RadioButton Style="{StaticResource BtnStyle}"
+                    <RadioButton Style="{StaticResource MenuButton}"
                          Command="{Binding EventListCommand}">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/calendar.png" >
@@ -51,8 +51,8 @@
                             <TextBlock Text="Gestion Évènements" Style="{StaticResource Text_Style}" />
                         </Grid>
                     </RadioButton>
-                    <RadioButton Style="{StaticResource BtnStyle}"
-                         Command="{Binding }">
+                    <RadioButton Style="{StaticResource MenuButton}"
+                         Command="{Binding RoomOverviewCommand}">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/theater.png">
                             </Image>
@@ -60,7 +60,7 @@
                             <TextBlock Text="Configuration Salle" Style="{StaticResource Text_Style}" />
                         </Grid>
                     </RadioButton>
-                    <RadioButton Style="{StaticResource BtnStyle}"
+                    <RadioButton Style="{StaticResource MenuButton}"
                          Command="{Binding }">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/report.png"  >
@@ -69,7 +69,7 @@
                             <TextBlock Text="Rapport Ventes" Style="{StaticResource Text_Style}" />
                         </Grid>
                     </RadioButton>
-                    <RadioButton Style="{StaticResource BtnStyle}"
+                    <RadioButton Style="{StaticResource MenuButton}"
                          Command="{Binding }">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/transaction.png"  >
@@ -78,7 +78,7 @@
                             <TextBlock Text="Rapport Transactions" Style="{StaticResource Text_Style}" />
                         </Grid>
                     </RadioButton>
-                    <RadioButton Style="{StaticResource BtnStyle}"
+                    <RadioButton Style="{StaticResource MenuButton}"
                          Command="{Binding }">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/setting.png"  >

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdministratorApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using TicketingDatabase.Data;
 
 namespace AdministratorApp.Views.Events
 {
@@ -20,9 +23,15 @@ namespace AdministratorApp.Views.Events
     /// </summary>
     public partial class CreateEdit : UserControl
     {
-        public CreateEdit()
+        private TicketingContext _context;
+        private bool _IsModify;
+        public CreateEdit(TicketingContext context, bool IsModify, NavigationVM nav)
         {
+            _context = context;
+            _IsModify = IsModify;
+
             InitializeComponent();
+            this.DataContext = new EventVM(_context, nav);
         }
     }
 }

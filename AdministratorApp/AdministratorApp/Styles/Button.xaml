@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style x:Key="BtnStyle"
+    <Style x:Key="MenuButton"
            TargetType="RadioButton">
 
         <Setter Property="HorizontalAlignment"
@@ -194,6 +194,74 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border Name="Border" BorderThickness="5" Margin="-10" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="#009A4C">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CustomButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#DBDBDB"/>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="Border" BorderThickness="5" Margin="5" Padding="12" CornerRadius="10" Background="#272B2F" BorderBrush="#272B2F">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Foreground" Value="#DBDBDB"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="Border" BorderThickness="5" Margin="5" Padding="12" CornerRadius="10" Background="#272B2F" BorderBrush="#DBDBDB">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="AddButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="#009A4C"/>
+        <Setter Property="Foreground" Value="#272B2F"/>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="Border" BorderThickness="5" Margin="5" Padding="12" CornerRadius="10" Background="#009A4C" BorderBrush="#272B2F">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Foreground" Value="#009A4C"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="Border" BorderThickness="5" Margin="5" Padding="12" CornerRadius="10" Background="#272B2F" BorderBrush="#009A4C">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </ControlTemplate>

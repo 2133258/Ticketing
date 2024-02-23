@@ -23,12 +23,12 @@ namespace AdministratorApp.Views.Events
     public partial class List : UserControl
     {
         private TicketingContext _context;
-        public List(TicketingContext context)
+        public List(TicketingContext context, NavigationVM nav)
         {
             _context = context;
 
             InitializeComponent();
-            this.DataContext = new EventVM(_context);
+            this.DataContext = new EventVM(_context, nav);
         }
     }
 }
