@@ -37,7 +37,8 @@ namespace AdministratorApp.ViewModels
 
         #region Commandes
 
-        [RelayCommand]
+        /* ---------------- Events ---------------- */
+        [RelayCommand] /* ---- MainView ---- */
         public void EventList(object obj)
         { 
             CurrentViews.Clear();
@@ -45,12 +46,29 @@ namespace AdministratorApp.ViewModels
             CurrentViews.Add(CurrentView);
         }
 
-        [RelayCommand]
-        public void EventCreate(object obj) => CurrentView = new Views.Events.CreateEdit(_context, false, this);
-        [RelayCommand]
-        public void EventEdit(object obj) => CurrentView = new Views.Events.CreateEdit(_context, true, this);
+        [RelayCommand] /* ---- CreateView ---- */
+        public void EventCreate(object obj)
+        {
+            CurrentView = new Views.Events.CreateEdit(_context, false, this);
+            CurrentViews.Add(CurrentView);
+        }
 
-        [RelayCommand]
+        [RelayCommand] /* ---- EditView ---- */
+        public void EventEdit(object obj)
+        {
+            CurrentView = new Views.Events.CreateEdit(_context, true, this);
+            CurrentViews.Add(CurrentView);
+        }
+
+        [RelayCommand] /* ---- SeatSelection ---- */
+        public void EventSeatSelection(object obj)
+        {
+            CurrentView = new Views.Events.SeatsSelection(_context, this);
+            CurrentViews.Add(CurrentView);
+        }
+
+        /* ---------------- RoomConfig ---------------- */
+        [RelayCommand] /* ---- MainView ---- */
         private void RoomOverview(object obj)
         {
             CurrentViews.Clear();

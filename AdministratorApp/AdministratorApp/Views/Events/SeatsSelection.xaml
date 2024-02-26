@@ -4,9 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AdministratorApp.Views.Events"
+             xmlns:viewModels="clr-namespace:AdministratorApp.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:EventVM}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
     <Grid>
-            
+        <!--<TabControl ItemsSource="{Binding RoomSections}">
+            <TabControl.ItemTemplate>
+                --><!-- This is the header template --><!--
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                --><!-- This is the content template --><!--
+                <DataTemplate>
+                    <UserControl DataContext="{Binding}">
+                        --><!-- Define the content for a room section here, e.g., a list of seats --><!--
+                    </UserControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>-->
+        <TabControl Background="Transparent">
+            <TabItem Header="Section 1" Style="{StaticResource CustomTabItem}">
+            </TabItem>
+            <TabItem Header="Section 2" Style="{StaticResource CustomTabItem}">
+
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </UserControl>

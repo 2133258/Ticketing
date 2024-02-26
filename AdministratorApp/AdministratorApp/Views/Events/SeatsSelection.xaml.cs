@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdministratorApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TicketingDatabase.Data;
 
 namespace AdministratorApp.Views.Events
 {
@@ -20,9 +22,13 @@ namespace AdministratorApp.Views.Events
     /// </summary>
     public partial class SeatsSelection : UserControl
     {
-        public SeatsSelection()
+        private TicketingContext _context;
+        public SeatsSelection(TicketingContext context, NavigationVM nav)
         {
+            _context = context;
+
             InitializeComponent();
+            this.DataContext = new EventVM(_context, nav);
         }
     }
 }

@@ -21,11 +21,10 @@ namespace AdministratorApp.ViewModels
         }
 
         [RelayCommand]
-        public void EventEdit(object obj)
-        {
-            _nav.EventEdit(this);
-            _nav.CurrentViews.Add(_nav.CurrentView);
-        }
+        public void EventEdit(object obj) => _nav.EventEdit(this);
+
+        [RelayCommand]
+        public void EventSelectionSeat(object obj) => _nav.EventSeatSelection(this);
 
         [RelayCommand]
         public void GoBack(object obj)
