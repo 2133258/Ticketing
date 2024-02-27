@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdministratorApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TicketingDatabase.Data;
+using TicketingDatabase.Models;
 
 namespace AdministratorApp.Views.Sales
 {
@@ -20,9 +23,22 @@ namespace AdministratorApp.Views.Sales
     /// </summary>
     public partial class List : UserControl
     {
-        public List()
+        private TicketingContext _context;
+        private NavigationVM _nav;
+        public List(TicketingContext context, NavigationVM nav)
         {
+            _context = context;
+            _nav = nav;
             InitializeComponent();
+            this.DataContext = new SaleVM(context, nav);
         }
+
+        private void NavDetails(object sender, MouseButtonEventArgs e)
+        {
+            //Sale sale = (Sale)((Border)sender).Tag;
+            _nav.SaleDetails(new Sale());
+        }
+
+        
     }
 }

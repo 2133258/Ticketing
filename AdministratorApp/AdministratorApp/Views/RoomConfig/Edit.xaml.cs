@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdministratorApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TicketingDatabase.Data;
 
 namespace AdministratorApp.Views.RoomConfig
 {
@@ -20,9 +22,13 @@ namespace AdministratorApp.Views.RoomConfig
     /// </summary>
     public partial class Edit : UserControl
     {
-        public Edit()
+        private TicketingContext _context;
+        public Edit(TicketingContext context, NavigationVM nav)
         {
+            _context = context;
+
             InitializeComponent();
+            this.DataContext = new RoomConfigVM(_context, nav);
         }
     }
 }

@@ -61,7 +61,7 @@
                         </Grid>
                     </RadioButton>
                     <RadioButton Style="{StaticResource MenuButton}"
-                         Command="{Binding }">
+                         Command="{Binding SaleListCommand}">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/report.png"  >
                             </Image>
@@ -70,7 +70,7 @@
                         </Grid>
                     </RadioButton>
                     <RadioButton Style="{StaticResource MenuButton}"
-                         Command="{Binding }">
+                         Command="{Binding TransactionListCommand}">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/transaction.png"  >
                             </Image>

@@ -8,6 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <!--<TabControl ItemsSource="{Binding RoomSections}">
             <TabControl.ItemTemplate>
                 --><!-- This is the header template --><!--
@@ -24,13 +28,41 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>-->
-        <TabControl Background="Transparent">
+        <TabControl Style="{StaticResource CustomTabControl}" Grid.Row="0">
             <TabItem Header="Section 1" Style="{StaticResource CustomTabItem}">
+                <ListView x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                        <Grid  Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Range 1" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Grid.Column="1" Text="20 Sieges" Margin="50,0" Style="{StaticResource Text_Style}"></TextBlock>
+                            <CheckBox Grid.Column="2" Content="Disponible" Margin="50,0" Style="{StaticResource CustomCheckBox}"></CheckBox>
+                        </Grid>
+                    </Border>
+                    <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                        <Grid  Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Range 1" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Grid.Column="1" Text="20 Sieges" Margin="50,0" Style="{StaticResource Text_Style}"></TextBlock>
+                            <CheckBox Grid.Column="2" Content="Disponible" Margin="50,0" Style="{StaticResource CustomCheckBox}"></CheckBox>
+                        </Grid>
+                    </Border>
+                </ListView>
             </TabItem>
             <TabItem Header="Section 2" Style="{StaticResource CustomTabItem}">
 
             </TabItem>
         </TabControl>
-
-    </Grid>
+        <Grid Row="1" VerticalAlignment="Bottom" Margin="10,10,10,0">
+            <Button Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
+        </Grid>
+        </Grid>
 </UserControl>

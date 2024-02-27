@@ -4,9 +4,42 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AdministratorApp.Views.RoomConfig.Row"
+             xmlns:viewModels="clr-namespace:AdministratorApp.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:RoomConfigVM}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                <Grid  Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Siege 1" Style="{StaticResource Text_Style}"></TextBlock>
+                    <Button Grid.Column="1" Content="Supprimer" Margin="50,0" Style="{StaticResource DeleteButton}"></Button>
+                </Grid>
+            </Border>
+            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                <Grid  Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Siege 1" Style="{StaticResource Text_Style}"></TextBlock>
+                    <Button Grid.Column="1" Content="Supprimer" Margin="50,0" Style="{StaticResource DeleteButton}"></Button>
+                </Grid>
+            </Border>
+        </ListView>
+        <Grid Row="1" VerticalAlignment="Bottom" Margin="10,10,10,0">
+            <Button Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Nouveau siege" Style="{StaticResource AddButton}"/>
+                <Button Content="Creer la range" Style="{StaticResource AddButton}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

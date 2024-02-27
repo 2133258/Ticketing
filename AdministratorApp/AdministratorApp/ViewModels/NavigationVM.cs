@@ -37,29 +37,26 @@ namespace AdministratorApp.ViewModels
 
         #region Commandes
 
-        /* ---------------- Events ---------------- */
+        /* ------------------------ Events ------------------------ */
         [RelayCommand] /* ---- MainView ---- */
-        public void EventList(object obj)
+        private void EventList(object obj)
         { 
             CurrentViews.Clear();
             CurrentView = new Views.Events.List(_context, this);
             CurrentViews.Add(CurrentView);
         }
-
         [RelayCommand] /* ---- CreateView ---- */
         public void EventCreate(object obj)
         {
             CurrentView = new Views.Events.CreateEdit(_context, false, this);
             CurrentViews.Add(CurrentView);
         }
-
         [RelayCommand] /* ---- EditView ---- */
         public void EventEdit(object obj)
         {
             CurrentView = new Views.Events.CreateEdit(_context, true, this);
             CurrentViews.Add(CurrentView);
         }
-
         [RelayCommand] /* ---- SeatSelection ---- */
         public void EventSeatSelection(object obj)
         {
@@ -67,7 +64,7 @@ namespace AdministratorApp.ViewModels
             CurrentViews.Add(CurrentView);
         }
 
-        /* ---------------- RoomConfig ---------------- */
+        /* ------------------------ RoomConfig ------------------------ */
         [RelayCommand] /* ---- MainView ---- */
         private void RoomOverview(object obj)
         {
@@ -75,26 +72,55 @@ namespace AdministratorApp.ViewModels
             CurrentView = new Views.RoomConfig.FullView(_context, this);
             CurrentViews.Add(CurrentView);
         }
+        [RelayCommand] /* ---- MainView ---- */
+        public void RoomEdit(object obj)
+        {
+            CurrentView = new Views.RoomConfig.Edit(_context, this);
+            CurrentViews.Add(CurrentView);
+        }
+        [RelayCommand] /* ---- CreateView ---- */
+        public void RowCreate(object obj)
+        {
+            CurrentView = new Views.RoomConfig.Row.CreateEdit(_context, false, this);
+            CurrentViews.Add(CurrentView);
+        }
+        [RelayCommand] /* ---- EditView ---- */
+        public void RowEdit(object obj)
+        {
+            CurrentView = new Views.RoomConfig.Row.CreateEdit(_context, true, this);
+            CurrentViews.Add(CurrentView);
+        }
+        
 
-        //[RelayCommand]
-        //private void DepartementList(object obj) => CurrentView = new DepartementListView(_context);
+        /* ------------------------ Sale ------------------------ */
+        [RelayCommand] /* ---- MainView ---- */
+        private void SaleList(object obj)
+        {
+            CurrentViews.Clear();
+            CurrentView = new Views.Sales.List(_context, this);
+            CurrentViews.Add(CurrentView);
+        }
+        [RelayCommand] /* ---- DetailsView ---- */
+        public void SaleDetails(Sale sale)
+        {
+            CurrentView = new Views.Sales.Details(_context, sale, this);
+            CurrentViews.Add(CurrentView);
+        }
 
-        //[RelayCommand]
-        //private void Clients(object obj) => CurrentView = new ClientListView(_context);
-
-        //[RelayCommand]
-        //public void Template(object obj) => CurrentView = new TemplateListView(_context, this);
-
-        //[RelayCommand]
-        //private void Settings(object obj) => CurrentView = new SettingsView(_context);
-
-        //[RelayCommand]
-        //public void Project(Project project) { CurrentView = new GestionProjetView(_context, project, this); }
-
-        //[RelayCommand]
-        //public void ProjectEmployee(Project project) { CurrentView = new ProjectEmployeeView(_context, project); }
-        //[RelayCommand]
-        //public void TimeLine(Project project) { CurrentView = new TimelineChart(_context, project); }
+        /* ------------------------ Transaction ------------------------ */
+        [RelayCommand] /* ---- MainView ---- */
+        private void TransactionList(object obj)
+        {
+            CurrentViews.Clear();
+            CurrentView = new Views.Transactions.List(_context, this);
+            CurrentViews.Add(CurrentView);
+        }
+        [RelayCommand] /* ---- DetailsView ---- */
+        public void TransactionDetails(Transaction transaction)
+        {
+            CurrentView = new Views.Transactions.Details(_context, transaction, this);
+            CurrentViews.Add(CurrentView);
+        }
         #endregion
     }
 }

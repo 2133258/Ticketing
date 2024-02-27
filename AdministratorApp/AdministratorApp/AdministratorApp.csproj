@@ -12,6 +12,7 @@
     <None Remove="Styles\shutdown_def.png" />
     <None Remove="Styles\shutdown_mo.png" />
     <None Remove="Views\Events\SimonLeblanc-580x614.jpg" />
+    <None Remove="Views\RoomConfig\Salle.png" />
     <None Remove="Views\Template\calendar.png" />
     <None Remove="Views\Template\report.png" />
     <None Remove="Views\Template\setting.png" />
@@ -39,6 +40,7 @@
     <Resource Include="Styles\shutdown_def.png" />
     <Resource Include="Styles\shutdown_mo.png" />
     <Resource Include="Views\Events\SimonLeblanc-580x614.jpg" />
+    <Resource Include="Views\RoomConfig\Salle.png" />
     <Resource Include="Views\Template\calendar.png" />
     <Resource Include="Views\Template\report.png" />
     <Resource Include="Views\Template\setting.png" />

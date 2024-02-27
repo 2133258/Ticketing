@@ -4,6 +4,7 @@
         <Setter Property="FontSize" Value="16"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>
         <Setter Property="Foreground" Value="#DBDBDB"></Setter>
+        <Setter Property="Margin" Value="20,0,-25,0"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabItem">
@@ -102,6 +103,31 @@
                                     Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CustomTabControl" TargetType="TabControl">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Margin" Value="0,15,0,0"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderThickness="0" BorderBrush="Transparent" CornerRadius="20" Grid.Row="1">
+                            <Border BorderThickness="0" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="20">
+                                <Border Background="#272B2F" CornerRadius="20">
+                                    <ContentPresenter ContentSource="SelectedContent"/>
+                                </Border>
+                            </Border>
+                        </Border>
+                        <TabPanel Grid.Row="0" IsItemsHost="true"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -115,7 +115,7 @@
             <Button Content="Retour" Command="{Binding GoBackCommand}" Style="{StaticResource CustomButton}" HorizontalAlignment="Left"></Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Sauvegarder" Style="{StaticResource AddButton}"></Button>
-                <Button Content="Supprimer" Style="{StaticResource AddButton}"></Button>
+                <Button Content="Supprimer" Style="{StaticResource DeleteButton}"></Button>
             </StackPanel>
         </Grid>
     </Grid>

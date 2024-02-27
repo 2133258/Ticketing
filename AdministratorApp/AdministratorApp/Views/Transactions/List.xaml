@@ -4,9 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AdministratorApp.Views.Transactions"
+             xmlns:viewModels="clr-namespace:AdministratorApp.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:TransactionVM}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Tag="Recherche" Width="250" Height="65" Margin="35,5" Style="{StaticResource CustomTextBox}"></TextBox>
+        <ListView Grid.Row="1" x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="NavDetails" />
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <TextBlock Grid.Column="0" Text="Du 15-02-2024 au 22-02-2024" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="Id : 4534335543365" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="2109.65$" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                </Grid>
+            </Border>
+        </ListView>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdministratorApp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TicketingDatabase.Data;
+using TicketingDatabase.Models;
 
 namespace AdministratorApp.Views.Transactions
 {
@@ -20,9 +23,14 @@ namespace AdministratorApp.Views.Transactions
     /// </summary>
     public partial class Details : UserControl
     {
-        public Details()
+        private TicketingContext _context;
+        private Transaction _transaction;
+        public Details(TicketingContext context,Transaction transaction, NavigationVM nav)
         {
+            _context = context;
+            _transaction = transaction;
             InitializeComponent();
+            this.DataContext = new TransactionVM(context, nav);
         }
     }
 }

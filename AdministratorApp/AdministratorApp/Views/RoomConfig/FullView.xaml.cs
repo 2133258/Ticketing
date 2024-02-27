@@ -28,7 +28,7 @@ namespace AdministratorApp.Views.RoomConfig
             _context = context;
 
             InitializeComponent();
-            this.DataContext = new EventVM(_context, nav);
+            this.DataContext = new RoomConfigVM(_context, nav);
         }
     }
 }

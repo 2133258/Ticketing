@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AdministratorApp.ViewModels;
+using TicketingDatabase.Data;
+using TicketingDatabase.Models;
 
 namespace AdministratorApp.Views.Sales
 {
@@ -20,9 +23,13 @@ namespace AdministratorApp.Views.Sales
     /// </summary>
     public partial class Details : UserControl
     {
-        public Details()
+        private TicketingContext _context;
+        public Details(TicketingContext context,Sale sale, NavigationVM nav)
         {
+            _context = context;
+
             InitializeComponent();
+            this.DataContext = new SaleVM(context, sale, nav);
         }
     }
 }
