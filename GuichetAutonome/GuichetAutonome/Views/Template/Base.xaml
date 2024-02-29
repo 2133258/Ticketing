@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GuichetAutonome.Views.Template"
+        xmlns:viewModels="clr-namespace:GuichetAutonome.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:NavigationVM}"
         mc:Ignorable="d"
         Title="Base" 
-        Height="880" 
-        Width="1300"
+        Height="1200" 
+        Width="1600"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         WindowStyle="None" 
@@ -18,7 +19,7 @@
     <Border x:Name="BorderWindow" Background="#212529" CornerRadius="20"  MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="290"/>
+                <ColumnDefinition Width="470"/>
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
@@ -51,7 +52,7 @@
                         </Grid>
                     </RadioButton>
                     <RadioButton Style="{StaticResource MenuButton}"
-                     Command="{Binding RoomOverviewCommand}">
+                     Command="{Binding CartDetailsCommand}">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/theater.png">
                             </Image>
@@ -60,7 +61,7 @@
                         </Grid>
                     </RadioButton>
                     <RadioButton Style="{StaticResource MenuButton}"
-                     Command="{Binding SaleListCommand}">
+                     Command="{Binding AccountDetailsCommand}">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/report.png"  >
                             </Image>

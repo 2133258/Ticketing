@@ -5,7 +5,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
-                    <Border Background="#212529" CornerRadius="20" Height="75">
+                    <Border Background="#212529" CornerRadius="20" Padding="10" Height="130">
                         <ContentPresenter />
                     </Border>
                 </ControlTemplate>

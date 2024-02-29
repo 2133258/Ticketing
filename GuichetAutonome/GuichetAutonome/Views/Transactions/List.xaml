@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="GuichetAutonome.Views.Transactions.List"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GuichetAutonome.Views.Transactions"
+             xmlns:viewModels="clr-namespace:GuichetAutonome.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:TransactionVM}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="20,0,20,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Column="0" Height="100"  Width="300" Tag="Recherche" Margin="25,20,50,10" HorizontalAlignment="Right" Style="{StaticResource CustomTextBox}"></TextBox>
+        <ListView Grid.Row="1" x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="NavDetails" />
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <TextBlock Grid.Column="0" Text="Du 15-02-2024 au 22-02-2024" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="Id : 4534335543365" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="2109.65$" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                </Grid>
+            </Border>
+        </ListView>
+    </Grid>
+</UserControl>

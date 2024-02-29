@@ -21,10 +21,10 @@
                     </Style>
                 </Border.Style>
                 <Grid>
-                    <TextBlock Grid.Column="0" Text="Du 15-02-2024 au 22-02-2024" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="Id : 4534335543365" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text="2109.65$" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Text="Du 15-02-2024 au 22-02-2024" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Text="Id : 4534335543365" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Text="2109.65$" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
                 </Grid>
             </Border>
         </ListView>

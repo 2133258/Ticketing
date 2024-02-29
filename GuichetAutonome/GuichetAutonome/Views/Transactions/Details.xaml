@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="GuichetAutonome.Views.Transactions.Details"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GuichetAutonome.Views.Transactions"
+             xmlns:viewModels="clr-namespace:GuichetAutonome.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:TransactionVM}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Row="1" VerticalAlignment="Bottom" Margin="10,10,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition  Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
+            <Button Grid.Column="1" Content="Envoie par courriel" Style="{StaticResource CustomButton}"/>
+        </Grid>
+        <ListView Grid.Row="0" x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Du 15-02-2024 au 22-02-2024" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="Id : 4534335543365" HorizontalAlignment="Center" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="2109.65$" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                </Grid>
+            </Border>
+        </ListView>
+    </Grid>
+</UserControl>
