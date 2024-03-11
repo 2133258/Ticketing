@@ -22,15 +22,8 @@ namespace GuichetAutonome.ViewModels
             _nav = nav;
         }
 
-        public EventVM(TicketingContext context, Event myEvent, NavigationVM nav)
-        {
-            _context = context;
-            _nav = nav;
-            _myEvent = myEvent;
-        }
-
         [RelayCommand]
-        public void EventDetails(object obj) => _nav.EventDetails(_myEvent);
+        public void EventDetails(object obj) => _nav.EventDetails(this);
 
         [RelayCommand]
         public void GoBack(object obj)

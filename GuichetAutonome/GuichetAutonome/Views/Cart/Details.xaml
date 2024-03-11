@@ -35,7 +35,7 @@
                     </Border>
                 </Grid>
                 <Border Grid.Row="1">
-                    <ListView x:Name="ListViewClient"
+                    <ListView x:Name="ListViewClient" ItemsSource="{Binding Tickets}"
                        Background="Transparent" BorderBrush="Transparent" Margin="-1">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">

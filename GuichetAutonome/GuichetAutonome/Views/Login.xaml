@@ -1,0 +1,101 @@
+﻿<Window x:Class="GuichetAutonome.Views.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GuichetAutonome.Views"
+        mc:Ignorable="d"
+        Title="Login" 
+        Height="1200" 
+        Width="1600"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None" 
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Border Background="#212529" 
+            CornerRadius="25"
+            Opacity="0.95"
+            MouseDown="Border_MouseDown">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Column="0">
+                <StackPanel Width="400"
+                            Orientation="Vertical"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Connexion"
+                               HorizontalAlignment="Center"
+                               Margin="0" FontSize="36"
+                               Style="{StaticResource Text_Style}"/>
+                    <TextBlock x:Name="GeneralError" Margin="10,10,10,5" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                    <TextBox x:Name="UserNameText"
+                             Text="{Binding Username}"
+                             Tag="Nom d'utilisateur"
+                             Height="100"
+                             Width="350"
+                             VerticalContentAlignment="Center"
+                             HorizontalAlignment="Center"
+                             Style="{StaticResource CustomTextBox}">
+                        <TextBox.Background>
+                            <ImageBrush ImageSource="/Views/user-icon.png"
+                                        Stretch="None"
+                                        AlignmentX="Left"/>
+                        </TextBox.Background>
+                    </TextBox>
+                    <TextBlock x:Name="ErrorUserName" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
+                    <PasswordBox x:Name="PassWordText"
+                             Password=""
+                             Tag="Mot de passe"
+                             Height="100"
+                             Width="350"
+                             VerticalContentAlignment="Center"
+                             HorizontalAlignment="Center"
+                             Style="{StaticResource CustomPasswordBox}">
+                        <PasswordBox.Background>
+                            <ImageBrush ImageSource="/Views/key-icon.png"
+                                        Stretch="None"
+                                        AlignmentX="Left"/>
+                        </PasswordBox.Background>
+                    </PasswordBox>
+                    <TextBlock x:Name="ErrorPassWord" Margin="10,2,10,15" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
+                    <Button x:Name="LoginButton"
+                            Content="Connexion"
+                            IsDefault="True"
+                            Style="{StaticResource CustomButton}"
+                            Click="LoginButton_Click">
+                    </Button>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Grid Column="1">
+                <StackPanel Grid.Row="1" Margin="20"
+                            Orientation="Vertical"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="Créer un nouveau compte" HorizontalAlignment="Center"
+                               Margin="0" TextWrapping="Wrap" FontSize="36"
+                               Style="{StaticResource Text_Style}"/>
+                    <TextBlock x:Name="GeneralErrorCreation" Margin="10,10,10,5" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                    <TextBox Tag="Nom d'utilisateur" HorizontalAlignment="Center" Height="100" Width="375" 
+                             Style="{StaticResource CustomTextBox}"/>
+                    <TextBlock x:Name="ErrorUserNameCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
+                    <PasswordBox Tag="Mot de passe" HorizontalAlignment="Center" Height="100" Width="375"
+                                 Style="{StaticResource CustomPasswordBox}"/>
+                    <TextBlock x:Name="ErrorPasswordCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
+                    <PasswordBox Tag="Confirmez le mot de passe" HorizontalAlignment="Center" Height="100" Width="375" 
+                                 Style="{StaticResource CustomPasswordBox}"/>
+                    <TextBlock x:Name="ErrorPasswordAgainCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBox Tag="Adresse email" HorizontalAlignment="Center" Height="100" Width="375" 
+                             Style="{StaticResource CustomTextBox}" />
+                    <TextBlock x:Name="ErrorEmailCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
+                    <Button Content="Créer le compte" Style="{StaticResource AddButton}"/>
+                </StackPanel>
+            </Grid> 
+        </Grid>
+    </Border>
+</Window>

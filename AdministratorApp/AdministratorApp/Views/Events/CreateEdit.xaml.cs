@@ -15,6 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TicketingDatabase.Data;
+using TicketingDatabase.Models;
+using Microsoft.Win32;
+using System; 
 
 namespace AdministratorApp.Views.Events
 {
@@ -23,15 +26,10 @@ namespace AdministratorApp.Views.Events
     /// </summary>
     public partial class CreateEdit : UserControl
     {
-        private TicketingContext _context;
-        private bool _IsModify;
-        public CreateEdit(TicketingContext context, bool IsModify, NavigationVM nav)
+        public CreateEdit(object vm)
         {
-            _context = context;
-            _IsModify = IsModify;
-
             InitializeComponent();
-            this.DataContext = new EventVM(_context, nav);
+            this.DataContext = vm;
         }
     }
 }

@@ -12,32 +12,26 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
-                <Grid  Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Siege 1" Style="{StaticResource Text_Style}"></TextBlock>
-                    <Button Grid.Column="1" Content="Supprimer" Margin="50,0" Style="{StaticResource DeleteButton}"></Button>
-                </Grid>
-            </Border>
-            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
-                <Grid  Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Siege 1" Style="{StaticResource Text_Style}"></TextBlock>
-                    <Button Grid.Column="1" Content="Supprimer" Margin="50,0" Style="{StaticResource DeleteButton}"></Button>
-                </Grid>
-            </Border>
+        <ListView x:Name="ListView" Style="{StaticResource ListView}" ItemsSource="{Binding SelectedRow.Seats}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                        <Grid  Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource Text_Style}"></TextBlock>
+                            <Button Grid.Column="1" Content="Supprimer siège" Margin="50,0" Width="200" Tag="{Binding}" Command="{Binding DataContext.DeleteSeatCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource DeleteButton}"></Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
         <Grid Row="1" VerticalAlignment="Bottom" Margin="10,10,10,0">
             <Button Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Nouveau siege" Style="{StaticResource AddButton}"/>
+                <Button Content="Nouveau siege" Command="{Binding AddEmptySeatCommand}" Style="{StaticResource AddButton}"/>
                 <Button Content="Creer la range" Style="{StaticResource AddButton}"/>
             </StackPanel>
         </Grid>

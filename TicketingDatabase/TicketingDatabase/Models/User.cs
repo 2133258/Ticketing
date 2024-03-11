@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace TicketingDatabase.Models
 {
@@ -21,7 +22,7 @@ namespace TicketingDatabase.Models
         [Column("UserType")]
         public string Type { get; set; }
 
-        public ICollection<DigitalTicket>? DigitalTickets { get; set; }
-        public ICollection<Transaction>? Transactions { get; set; }
+        public ObservableCollection<DigitalTicket>? DigitalTickets { get; set; }
+        public ObservableCollection<Transaction>? Transactions { get; set; }
     }
 }

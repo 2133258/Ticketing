@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TicketingDatabase.Models;
 
-namespace AdministratorApp.ViewModels
+namespace GuichetAutonome.Helpers.User
 {
-    public class TestVM
+    public static class UserService
     {
+        public static TicketingDatabase.Models.User? connectedEmploye { get; set; }
     }
 }

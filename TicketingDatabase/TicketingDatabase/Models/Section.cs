@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,13 +18,17 @@ namespace TicketingDatabase.Models
         [Column("SectionDescription"), MaxLength(250, ErrorMessage = "Description trop longue !")]
         public string Description { get; set; }
         [Column("SectionCapacity")]
-        public int Capacity { get; set; }
+        public int? Capacity { get; set; }
 
         [Column("RoomId"),ForeignKey("Room")]
-        public int RoomId { get; set; }
+        public int? RoomId { get; set; }
         public Room? Room { get; set; }
 
-        public ICollection<Row> Rows { get; set; }
+        [Column("RoomConfigId"), ForeignKey("RoomConfig")]
+        public int? RoomConfigId { get; set; }
+        public RoomConfig? RoomConfig { get; set; }
+
+        public ObservableCollection<Row> Rows { get; set; }
 
     }
 }

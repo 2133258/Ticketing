@@ -1,0 +1,46 @@
+﻿<Window x:Class="AdministratorApp.Views.Template.DeleteConfirmation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdministratorApp.Views.Template"
+        MinWidth="450"
+        MinHeight="200"
+        MaxWidth="450"
+        VerticalAlignment="Stretch"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        Title="DeleteVerificationView"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
+    <Border Background="#212529" CornerRadius="20">
+        <Grid MouseDown="Grid_MouseDown">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border
+                Grid.Row="0"
+                Margin="20,20,20,0"
+                VerticalAlignment="Stretch"
+                Background="#272B2F"
+                BorderThickness="0"
+                CornerRadius="15">
+                    <TextBlock Text="{Binding DeleteMessage}"
+                    TextAlignment="Center" HorizontalAlignment="Center" Margin="0" Padding="10,15"
+                    TextWrapping="Wrap" Style="{StaticResource Text_Style}"/>
+                </Border>
+                <Grid Grid.Row="1" Background="Transparent">
+                    <Button Width="175" Content="Supprimer" HorizontalAlignment="Right" Command="{Binding ConfirmDelete}"
+                    Style="{StaticResource DeleteButton}" Margin="20" Click="DeleteClick"></Button>
+                    <Button Width="175" Content="Annuler" HorizontalAlignment="Left" Command="{Binding DenyDelete}"
+                    Style="{StaticResource CustomButton}" Margin="20" Click="StopClick"></Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -22,9 +22,9 @@ namespace GuichetAutonome.Views.Template
     public partial class Base : Window
     {
         private TicketingContext _context;
-        public Base()
+        public Base(TicketingContext context)
         {
-            _context = new TicketingContext();
+            _context = context;
             DbInitializer.Initialize(_context);
             InitializeComponent();
             this.DataContext = new NavigationVM(_context);

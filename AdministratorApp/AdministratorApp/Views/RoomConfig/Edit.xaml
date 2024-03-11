@@ -12,67 +12,43 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <!--<TabControl ItemsSource="{Binding RoomSections}">
-        <TabControl.ItemTemplate>
-            -->
-        <!-- This is the header template -->
-        <!--
-            <DataTemplate>
-                <TextBlock Text="{Binding Name}"/>
-            </DataTemplate>
-        </TabControl.ItemTemplate>
-        <TabControl.ContentTemplate>
-            -->
-        <!-- This is the content template -->
-        <!--
-            <DataTemplate>
-                <UserControl DataContext="{Binding}">
-                    -->
-        <!-- Define the content for a room section here, e.g., a list of seats -->
-        <!--
-                </UserControl>
-            </DataTemplate>
-        </TabControl.ContentTemplate>
-    </TabControl>-->
-        <Button Content="Nouvelle Section" Style="{StaticResource AddButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-15,10,0"/>
-        <TabControl Style="{StaticResource CustomTabControl}" Grid.Row="0">
-            <TabItem Header="Section 1" Style="{StaticResource CustomTabItem}">
-                <ListView x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                    <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
-                        <Grid  Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Range 1" Style="{StaticResource Text_Style}"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="20 Sieges" Margin="50,0" Style="{StaticResource Text_Style}"></TextBlock>
-                            <Button Grid.Column="2" Content="Supprimer" Margin="50,0" Style="{StaticResource DeleteButton}"></Button>
-                        </Grid>
-                    </Border>
-                    <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
-                        <Grid  Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Range 1" Style="{StaticResource Text_Style}"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="20 Sieges" Margin="50,0" Style="{StaticResource Text_Style}"></TextBlock>
-                            <Button Grid.Column="2" Content="Supprimer" Margin="50,0" Style="{StaticResource DeleteButton}"></Button>
-                        </Grid>
-                    </Border>
-                </ListView>
-            </TabItem>
-            <TabItem Header="Section 2" Style="{StaticResource CustomTabItem}">
-
-            </TabItem>
+        <TabControl ItemsSource="{Binding RoomConfig.Sections, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSection}" Style="{StaticResource CustomTabControl}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" Margin="0" Style="{StaticResource Text_Style}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ListView x:Name="ListView" Style="{StaticResource ListView}" ItemsSource="{Binding DataContext.SelectedSection.Rows, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.ColumnSpan="3" Tag="{Binding}" Command="{Binding DataContext.RowEditCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource ButtonList}"/>
+                                        <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource Text_Style}"></TextBlock>
+                                        <TextBlock Grid.Column="1" Text="{Binding Capacity}" Margin="50,0" Style="{StaticResource Text_Style}"></TextBlock>
+                                        <Button Grid.Column="2" Content="Supprimer rangée" Margin="50,0" Width="200" Tag="{Binding}" Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource DeleteButton}"></Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
+        <Button Content="Nouvelle Section" Style="{StaticResource AddButton}" Command="{Binding AddEmptySectionCommand}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-15,10,0"/>
         <Grid Row="1" VerticalAlignment="Bottom" Margin="10,10,10,0">
             <Button Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Nouvelle Range" Style="{StaticResource AddButton}" Command="{Binding RowCreateCommand}"/>
+                <Button Content="Nouvelle Range" Style="{StaticResource AddButton}" Command="{Binding AddEmptyRowCommand}"/>
                 <Button Content="Sauvegarder les sections" Style="{StaticResource AddButton}"/>
+                <Button Content="Supprimer Section" Style="{StaticResource DeleteButton}" Command="{Binding DeleteSectionCommand}"/>
             </StackPanel>
         </Grid>
     </Grid>

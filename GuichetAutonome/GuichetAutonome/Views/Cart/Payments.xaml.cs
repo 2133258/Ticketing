@@ -23,13 +23,10 @@ namespace GuichetAutonome.Views.Cart
     /// </summary>
     public partial class Payments : UserControl
     {
-        private TicketingContext _context;
-        public Payments(TicketingContext context, NavigationVM nav)
+        public Payments(CartVM vm)
         {
-            _context = context;
-
             InitializeComponent();
-            this.DataContext = new CartVM(context, nav);
+            this.DataContext = vm;
         }
     }
 }

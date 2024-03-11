@@ -20,21 +20,71 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Retour" Margin="20,0" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
             <Button Grid.Column="1" Content="Envoie par courriel" Margin="20,0" Style="{StaticResource CustomButton}"/>
-            <Button Grid.Column="2" Content="Convertir en PDF" Margin="20,0" Style="{StaticResource CustomButton}"/>
         </Grid>
-        <ListView Grid.Row="0" x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+        <Border Grid.Row="0" CornerRadius="25" Margin="15,25" Background="#272B2F" VerticalAlignment="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Du 15-02-2024 au 22-02-2024" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="Id : 4534335543365" HorizontalAlignment="Center" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text="2109.65$" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                    <Border Grid.Column="0" Background="#212529" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="10">
+                        <Label Content="Nom de l'evenement" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18" Foreground="#DBDBDB" Margin="20,0"></Label>
+                    </Border>
+                    <Border Grid.Column="1" Background="#212529" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="10">
+                        <Label Content="Nombre de billet" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18" Foreground="#DBDBDB" Margin="20,0"></Label>
+                    </Border>
+                    <Border Grid.Column="2" Background="#212529" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin=" 10">
+                        <Label Content="Type de Billet" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18" Foreground="#DBDBDB" Margin="20,0"></Label>
+                    </Border>
+                    <Border Grid.Column="3" Background="#212529" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin=" 10">
+                        <Label Content="Prix Total" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="18" Foreground="#DBDBDB" Margin="20,0"></Label>
+                    </Border>
                 </Grid>
-            </Border>
-        </ListView>
+                <Border Grid.Row="1">
+                    <ListView x:Name="ListViewClient" ItemsSource="{Binding SelectedSale.Transactions}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible"
+               Background="Transparent" BorderBrush="Transparent" Margin="-1" Height="400" >
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0"></Setter>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Border Background="Transparent">
+                                                <ContentPresenter />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Grid.Column="0" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="15,0">
+                                    <Grid Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5*"/>
+                                            <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="Leblanc deja" HorizontalContentAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="#DBDBDB" Margin="20,0"></Label>
+                                        <Label Grid.Column="1" Content="2512" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="#DBDBDB" Margin="20,0"></Label>
+                                        <Label Grid.Column="2" Content="22.25$"  HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="#DBDBDB" HorizontalAlignment="Right" Margin="20,0"></Label>
+                                        <Label Grid.Column="3" Content="22.25$"  HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="#DBDBDB" HorizontalAlignment="Right" Margin="20,0"></Label>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

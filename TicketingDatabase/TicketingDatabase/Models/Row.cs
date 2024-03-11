@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace TicketingDatabase.Models
 {
@@ -17,13 +18,15 @@ namespace TicketingDatabase.Models
         [Column("RowDescription"), MaxLength(250, ErrorMessage = "Description trop longue !")]
         public string Description { get; set; }
         [Column("RowCapacity")]
-        public int Capacity { get; set; }
+        public int? Capacity { get; set; }
+        [Column("RowIsAvailable")]
+        public bool IsAvailable { get; set; }
 
         [Column("SectionId"), ForeignKey("Section")]
         public int SectionId { get; set; }
         public Section? Section { get; set; }
 
-        public ICollection<Seat> Seats { get; set; }
+        public ObservableCollection<Seat> Seats { get; set; }
 
     }
 }

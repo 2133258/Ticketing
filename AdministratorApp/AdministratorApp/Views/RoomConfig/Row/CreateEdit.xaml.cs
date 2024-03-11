@@ -22,14 +22,10 @@ namespace AdministratorApp.Views.RoomConfig.Row
     /// </summary>
     public partial class CreateEdit : UserControl
     {
-        private TicketingContext _context;
-        private bool _IsModify;
-        public CreateEdit(TicketingContext context, bool IsModify, NavigationVM nav)
+        public CreateEdit(RoomConfigVM vm)
         {
-            _context = context;
-            _IsModify = IsModify;
             InitializeComponent();
-            this.DataContext = new RoomConfigVM(_context, nav);
+            this.DataContext = vm;
         }
     }
 }

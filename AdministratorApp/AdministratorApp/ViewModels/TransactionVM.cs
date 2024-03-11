@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,13 +22,23 @@ namespace AdministratorApp.ViewModels
         {
             _context = context;
             _nav = nav;
+            LoadTransactionsAsync();
         }
 
-        public TransactionVM(TicketingContext context, Transaction transaction, NavigationVM nav)
+        [ObservableProperty] private ObservableCollection<Transaction> transactions;
+        [ObservableProperty] private Transaction selectedTransaction;
+
+
+        public async Task LoadTransactionsAsync()
         {
-            _context = context;
-            _nav = nav;
-            _transaction = transaction;
+            Transactions = new ObservableCollection<Transaction>(_context.Transactions);
+        }
+
+        [RelayCommand]
+        public void TransactionDetails(object obj)
+        {
+            selectedTransaction = (Transaction)(obj);
+            _nav.TransactionDetails(this);
         }
 
         [RelayCommand]

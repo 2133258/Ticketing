@@ -13,20 +13,21 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBox Grid.Row="0" Tag="Recherche" Width="250" Height="65" Margin="35,5" Style="{StaticResource CustomTextBox}"></TextBox>
-        <ListView Grid.Row="1" x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="NavDetails" />
-                    </Style>
-                </Border.Style>
-                <Grid>
-                    <TextBlock Text="Du 15-02-2024 au 22-02-2024" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Text="Id : 4534335543365" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Text="2109.65$" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
-                </Grid>
-            </Border>
+        <ListView Grid.Row="1" x:Name="ListView" ItemsSource="{Binding Transactions}" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                        <Grid>
+                            <Button Grid.ColumnSpan="3" Tag="{Binding}" Command="{Binding DataContext.TransactionDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource ButtonList}"/>
+                            <TextBlock Text="{Binding Date}" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="{Binding Id}" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="{Binding TotalPriceTax}" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
         </ListView>
     </Grid>
 </UserControl>

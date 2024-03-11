@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace TicketingDatabase.Models
         public int EventId { get; set; }
         public Event? Event { get; set; }
 
-        public ICollection<Transaction>? Transactions { get; set; }
+        public ObservableCollection<Transaction>? Transactions { get; set; }
 
         public Sale() { }
     }

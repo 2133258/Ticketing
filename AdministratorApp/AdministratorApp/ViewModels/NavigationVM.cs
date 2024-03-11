@@ -39,28 +39,22 @@ namespace AdministratorApp.ViewModels
 
         /* ------------------------ Events ------------------------ */
         [RelayCommand] /* ---- MainView ---- */
-        private void EventList(object obj)
+        public void EventList(object obj)
         { 
             CurrentViews.Clear();
             CurrentView = new Views.Events.List(_context, this);
             CurrentViews.Add(CurrentView);
         }
-        [RelayCommand] /* ---- CreateView ---- */
-        public void EventCreate(object obj)
+        [RelayCommand] /* ---- CreateEditView ---- */
+        public void EventCreateEdit(EventVM vm)
         {
-            CurrentView = new Views.Events.CreateEdit(_context, false, this);
-            CurrentViews.Add(CurrentView);
-        }
-        [RelayCommand] /* ---- EditView ---- */
-        public void EventEdit(object obj)
-        {
-            CurrentView = new Views.Events.CreateEdit(_context, true, this);
+            CurrentView = new Views.Events.CreateEdit(vm);
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- SeatSelection ---- */
-        public void EventSeatSelection(object obj)
+        public void EventSeatSelection(EventVM vm)
         {
-            CurrentView = new Views.Events.SeatsSelection(_context, this);
+            CurrentView = new Views.Events.SeatsSelection(vm);
             CurrentViews.Add(CurrentView);
         }
 
@@ -73,21 +67,15 @@ namespace AdministratorApp.ViewModels
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- MainView ---- */
-        public void RoomEdit(object obj)
+        public void RoomEdit(RoomConfigVM vm)
         {
-            CurrentView = new Views.RoomConfig.Edit(_context, this);
+            CurrentView = new Views.RoomConfig.Edit(vm);
             CurrentViews.Add(CurrentView);
         }
-        [RelayCommand] /* ---- CreateView ---- */
-        public void RowCreate(object obj)
+        [RelayCommand] /* ---- CreateEditView ---- */
+        public void RowCreateEdit(RoomConfigVM vm)
         {
-            CurrentView = new Views.RoomConfig.Row.CreateEdit(_context, false, this);
-            CurrentViews.Add(CurrentView);
-        }
-        [RelayCommand] /* ---- EditView ---- */
-        public void RowEdit(object obj)
-        {
-            CurrentView = new Views.RoomConfig.Row.CreateEdit(_context, true, this);
+            CurrentView = new Views.RoomConfig.Row.CreateEdit(vm);
             CurrentViews.Add(CurrentView);
         }
         
@@ -101,9 +89,9 @@ namespace AdministratorApp.ViewModels
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- DetailsView ---- */
-        public void SaleDetails(Sale sale)
+        public void SaleDetails(SaleVM vm)
         {
-            CurrentView = new Views.Sales.Details(_context, sale, this);
+            CurrentView = new Views.Sales.Details(vm);
             CurrentViews.Add(CurrentView);
         }
 
@@ -116,9 +104,9 @@ namespace AdministratorApp.ViewModels
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- DetailsView ---- */
-        public void TransactionDetails(Transaction transaction)
+        public void TransactionDetails(TransactionVM vm)
         {
-            CurrentView = new Views.Transactions.Details(_context, transaction, this);
+            CurrentView = new Views.Transactions.Details(vm);
             CurrentViews.Add(CurrentView);
         }
         #endregion

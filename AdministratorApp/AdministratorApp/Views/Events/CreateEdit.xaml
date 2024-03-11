@@ -75,7 +75,8 @@
         </Grid.RowDefinitions>
         <Grid Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="210"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid Column="0">
@@ -85,37 +86,59 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Tag="Nom de l'evenement" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
-                <TextBox Grid.Row="1" Tag="Nom de l'artiste" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
-                <TextBox Grid.Row="2" Tag="Duree" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
-                <TextBox Grid.Row="3" Tag="Selection d'image" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
+                <TextBox Grid.Row="0" Tag="Nom de l'évènement" Text="{Binding EventName}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
+                <TextBox Grid.Row="1" Tag="Nom de l'artiste" Text="{Binding ArtistName}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
+                <TextBox Grid.Row="2" Tag="Durée (En Minutes)" Text="{Binding Duration}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
+                <TextBox Grid.Row="3" Tag="Selection d'image" Text="{Binding ImageSelection}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
             </Grid>
-            <Grid Column="1">
+            <Grid Column="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Tag="Description" Style="{StaticResource CustomTextBox}" Height="155" Width="275" HorizontalAlignment="Center"></TextBox>
+                <TextBox Grid.Row="0" Tag="Description" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Text="{Binding Description}" Style="{StaticResource CustomTextBox}" Height="155" Width="275" HorizontalAlignment="Center"></TextBox>
                 <Button Grid.Row="1" Content="Place disponible dans la salle" Style="{StaticResource CustomButton}" Command="{Binding EventSelectionSeatCommand}"></Button>
             </Grid>
         </Grid>
-        <Grid Row="1">
+        <Grid Row="1" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="210"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Grid Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Calendar Grid.Row="0" SelectedDate="{Binding SelectedDate}" Style="{DynamicResource CalendarStyle1}" CalendarButtonStyle="{DynamicResource CalendarButtonStyle1}"
+                          CalendarDayButtonStyle="{DynamicResource CalendarDayButtonStyle1}"
+                          CalendarItemStyle="{DynamicResource CalendarItemStyle1}" 
+                          Name="Calendar" SelectionMode="SingleDate"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Heures :" Style="{StaticResource Text_Style}" Margin="5,0"></TextBlock>
+                    <ComboBox x:Name="HourComboBox"
+                              Margin="5"
+                              ItemsSource="{Binding Hours}"
+                              SelectedItem="{Binding SelectedHour}" 
+                              Style="{StaticResource ComboBoxStyle}"/>
 
-            <Calendar Style="{DynamicResource CalendarStyle1}" CalendarButtonStyle="{DynamicResource CalendarButtonStyle1}"
-                      CalendarDayButtonStyle="{DynamicResource CalendarDayButtonStyle1}"
-                      CalendarItemStyle="{DynamicResource CalendarItemStyle1}" 
-                      Name="Calendar" SelectionMode="MultipleRange"/>
-            <ListBox Style="{DynamicResource ListBoxStyle}" ItemsSource="{Binding ElementName=Calendar, Path=SelectedDates}" Width="275" Margin="10" Grid.Column="1"/>
+                    <TextBlock Text="Minutes :" Style="{StaticResource Text_Style}" Margin="5,0"></TextBlock>
+                    <ComboBox x:Name="MinuteComboBox"
+                              Margin="5"
+                              ItemsSource="{Binding Minutes}"
+                              SelectedItem="{Binding SelectedMinute}" 
+                              Style="{StaticResource ComboBoxStyle}"/>
+                </StackPanel>
+            </Grid>
+            <Button Grid.Column="1" Content="Ajouter la date" Width="175" Style="{StaticResource AddButton}" Command="{Binding AddEventDatesCommand}"></Button>
+            <ListBox Style="{DynamicResource ListBoxStyle}" ItemsSource="{Binding EventDates}" Grid.Column="2" Margin="20,10,20,20"/>
         </Grid>
         <Grid Row="2">
             <Button Content="Retour" Command="{Binding GoBackCommand}" Style="{StaticResource CustomButton}" HorizontalAlignment="Left"></Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Sauvegarder" Style="{StaticResource AddButton}"></Button>
-                <Button Content="Supprimer" Style="{StaticResource DeleteButton}"></Button>
+                <Button Content="{Binding CreateEditButtonName}" Style="{StaticResource AddButton}" Command="{Binding AddOrUpdateTaskCommand}"></Button>
+                <Button Content="Supprimer" Style="{StaticResource DeleteButton}" Visibility="{Binding CreateEditVisibility}"></Button>
             </StackPanel>
         </Grid>
     </Grid>

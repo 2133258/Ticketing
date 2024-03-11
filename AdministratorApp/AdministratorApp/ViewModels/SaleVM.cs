@@ -2,9 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TicketingDatabase.Data;
 using TicketingDatabase.Models;
 
@@ -21,12 +23,23 @@ namespace AdministratorApp.ViewModels
             _context = context;
             _nav = nav;
             _sale = null;
+            LoadSalesAsync();
         }
-        public SaleVM(TicketingContext context, Sale sale, NavigationVM nav)
+
+        [ObservableProperty] private ObservableCollection<Sale> sales;
+        [ObservableProperty] private Sale selectedSale;
+
+
+        public async Task LoadSalesAsync()
         {
-            _context = context;
-            _nav = nav;
-            _sale = sale;
+            Sales = new ObservableCollection<Sale>(_context.Sales.Include(s => s.Transactions));
+        }
+
+        [RelayCommand]
+        public void SaleDetails(object obj)
+        {
+            selectedSale = (Sale)(obj);
+            _nav.SaleDetails(this);
         }
 
         [RelayCommand]

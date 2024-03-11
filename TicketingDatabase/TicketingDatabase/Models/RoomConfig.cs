@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace TicketingDatabase.Models
 {
-    public class Room
+    public class RoomConfig
     {
-        [Column("RoomId"), Key]
+        [Column("RoomConfigId"), Key]
         public int Id { get; set; }
-        [Column("RoomName")]
+        [Column("RoomConfigName")]
         public string Name { get; set; }
-        [Column("RoomDescription"), MaxLength(250, ErrorMessage = "Description trop longue !")]
+        [Column("RoomConfigDescription"), MaxLength(250, ErrorMessage = "Description trop longue !")]
         public string Description { get; set; }
-        [Column("RoomTotalCapacity")]
+        [Column("RoomConfigTotalCapacity")]
         public int? TotalCapacity { get; set; }
-
-        [Column("RoomConfigId"), ForeignKey("RoomConfig")]
-        public int RoomConfigId { get; set; }
-        public RoomConfig? RoomConfig { get; set; }
 
         public ObservableCollection<Section>? Sections { get; set; }
 

@@ -36,7 +36,7 @@ namespace GuichetAutonome.Views.Transactions
         private void NavDetails(object sender, MouseButtonEventArgs e)
         {
             //Transaction transaction = (Transaction)((Border)sender).Tag;
-            _nav.TransactionDetails(new Transaction());
+            _nav.TransactionDetails(this.DataContext);
         }
     }
 }

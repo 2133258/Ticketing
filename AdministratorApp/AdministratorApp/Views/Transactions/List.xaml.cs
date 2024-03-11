@@ -32,11 +32,5 @@ namespace AdministratorApp.Views.Transactions
             InitializeComponent();
             this.DataContext = new TransactionVM(context, nav);
         }
-
-        private void NavDetails(object sender, MouseButtonEventArgs e)
-        {
-            //Transaction transaction = (Transaction)((Border)sender).Tag;
-            _nav.TransactionDetails(new Transaction());
-        }
     }
 }

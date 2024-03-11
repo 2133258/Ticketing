@@ -23,13 +23,10 @@ namespace GuichetAutonome.Views.Events
     /// </summary>
     public partial class Details : UserControl
     {
-        private TicketingContext _context;
-        public Details(TicketingContext context, Event myEvent, NavigationVM nav)
+        public Details(EventVM vm)
         {
-            _context = context;
-
             InitializeComponent();
-            this.DataContext = new EventVM(context, myEvent, nav);
+            this.DataContext = vm;
         }
     }
 }

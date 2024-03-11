@@ -16,7 +16,7 @@
         AllowsTransparency="True">
             <Window.Resources>
     </Window.Resources>
-    <Border x:Name="BorderWindow" Background="#212529" CornerRadius="20"  MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border x:Name="BorderWindow" Background="#212529" CornerRadius="25"  MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="470"/>

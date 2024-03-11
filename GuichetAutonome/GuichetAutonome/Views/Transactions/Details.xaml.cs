@@ -23,14 +23,10 @@ namespace GuichetAutonome.Views.Transactions
     /// </summary>
     public partial class Details : UserControl
     {
-        private TicketingContext _context;
-        private Transaction _transaction;
-        public Details(TicketingContext context, Transaction transaction, NavigationVM nav)
+        public Details(TransactionVM vm)
         {
-            _context = context;
-            _transaction = transaction;
             InitializeComponent();
-            this.DataContext = new TransactionVM(context, nav);
+            this.DataContext = vm;
         }
     }
 }

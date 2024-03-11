@@ -33,12 +33,6 @@ namespace AdministratorApp.Views.Sales
             this.DataContext = new SaleVM(context, nav);
         }
 
-        private void NavDetails(object sender, MouseButtonEventArgs e)
-        {
-            //Sale sale = (Sale)((Border)sender).Tag;
-            _nav.SaleDetails(new Sale());
-        }
-
         
     }
 }

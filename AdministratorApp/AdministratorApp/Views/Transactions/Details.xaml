@@ -16,13 +16,11 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition  Width="Auto"/>
-                <ColumnDefinition  Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
             <Button Grid.Column="1" Content="Envoie par courriel" Style="{StaticResource CustomButton}"/>
-            <Button Grid.Column="2" Content="Convertir en PDF" Style="{StaticResource CustomButton}"/>
-            <Button Grid.Column="3" Content="Annuler la transaction" Style="{StaticResource DeleteButton}"/>
+            <Button Grid.Column="2" Content="Annuler la transaction" Style="{StaticResource DeleteButton}"/>
         </Grid>
         <ListView Grid.Row="0" x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
             <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">

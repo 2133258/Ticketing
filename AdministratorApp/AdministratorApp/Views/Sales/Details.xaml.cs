@@ -23,13 +23,10 @@ namespace AdministratorApp.Views.Sales
     /// </summary>
     public partial class Details : UserControl
     {
-        private TicketingContext _context;
-        public Details(TicketingContext context,Sale sale, NavigationVM nav)
+        public Details(SaleVM vm)
         {
-            _context = context;
-
             InitializeComponent();
-            this.DataContext = new SaleVM(context, sale, nav);
+            this.DataContext = vm;
         }
     }
 }

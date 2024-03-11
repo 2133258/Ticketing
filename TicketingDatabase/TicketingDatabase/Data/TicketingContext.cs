@@ -30,6 +30,7 @@ namespace TicketingDatabase.Data
 
         public DbSet<DigitalTicket> DigitalTickets { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<RoomConfig> RoomConfigs { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Row> Rows { get; set; }
         public DbSet<Sale> Sales { get; set; }
@@ -48,6 +49,7 @@ namespace TicketingDatabase.Data
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Event>().ToTable("Event");
             modelBuilder.Entity<Room>().ToTable("Room");
+            modelBuilder.Entity<RoomConfig>().ToTable("RoomConfig");
             modelBuilder.Entity<Section>().ToTable("Section");
             modelBuilder.Entity<Row>().ToTable("Row");
             modelBuilder.Entity<Seat>().ToTable("Seat");

@@ -43,9 +43,9 @@ namespace GuichetAutonome.ViewModels
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- DetailsView ---- */
-        public void EventDetails(Event myEvent)
+        public void EventDetails(EventVM vm)
         {
-            CurrentView = new Views.Events.Details(_context, myEvent, this);
+            CurrentView = new Views.Events.Details(vm);
             CurrentViews.Add(CurrentView);
         }
 
@@ -58,9 +58,9 @@ namespace GuichetAutonome.ViewModels
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- PaymentView ---- */
-        public void CartPayment(object obj)
+        public void CartPayment(CartVM vm)
         {
-            CurrentView = new Views.Cart.Payments(_context, this);
+            CurrentView = new Views.Cart.Payments(vm);
             CurrentViews.Add(CurrentView);
         }
 
@@ -73,9 +73,9 @@ namespace GuichetAutonome.ViewModels
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- DetailsView ---- */
-        public void TransactionDetails(Transaction transaction)
+        public void TransactionDetails(object vm)
         {
-            CurrentView = new Views.Transactions.Details(_context, transaction, this);
+            CurrentView = new Views.Transactions.Details((TransactionVM)vm);
             CurrentViews.Add(CurrentView);
         }
 

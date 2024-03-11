@@ -22,13 +22,10 @@ namespace AdministratorApp.Views.Events
     /// </summary>
     public partial class SeatsSelection : UserControl
     {
-        private TicketingContext _context;
-        public SeatsSelection(TicketingContext context, NavigationVM nav)
+        public SeatsSelection(EventVM vm)
         {
-            _context = context;
-
             InitializeComponent();
-            this.DataContext = new EventVM(_context, nav);
+            this.DataContext = vm;
         }
     }
 }

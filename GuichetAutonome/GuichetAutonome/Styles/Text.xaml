@@ -20,48 +20,47 @@
                 Value="Bold" />
         <Setter Property="Margin"
                 Value="130,0,0,0" />
-
     </Style>
 
     <Style x:Key="CustomTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Foreground"
-                Value="#DBDBDB" />
+            Value="#DBDBDB" />
         <Setter Property="FontSize"
-                Value="24" />
+            Value="24" />
         <Setter Property="FontWeight"
-                Value="Bold" />
+            Value="Bold" />
         <Setter Property="VerticalAlignment" 
-                Value="Center"/>
+            Value="Center"/>
         <Setter Property="HorizontalAlignment" 
-                Value="Left"/>
+            Value="Left"/>
         <Setter Property="Visibility" 
-                Value="Visible"/>
+            Value="Visible"/>
         <Setter Property="Margin"
-                Value="5"/>
+            Value="5"/>
         <Setter Property="Padding"
-                Value="0,0,0,5"/>
+            Value="0,0,0,5"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Border Background="#272B2F"
-                        BorderThickness="0" CornerRadius="20" Padding="20,0">
+                    BorderThickness="0" CornerRadius="20" Padding="20,0">
                         <Grid Height="75">
                             <Label x:Name="FloatingLabel"
-                               Content="{TemplateBinding Tag}"
-                               Padding="10"
-                               Margin="0,0,0,0"
-                               Foreground="#009A4C"
-                               FontWeight="Bold"
-                               FontSize="24"
-                               Visibility="Collapsed"/>
+                           Content="{TemplateBinding Tag}"
+                           Padding="10"
+                           Margin="0,0,0,0"
+                           Foreground="#009A4C"
+                           FontWeight="Bold"
+                           FontSize="24"
+                           Visibility="Collapsed"/>
                             <ScrollViewer x:Name="PART_ContentHost"
-                                      VerticalAlignment="Bottom"
-                                      Padding="{TemplateBinding Padding}"/>
+                                  VerticalAlignment="Bottom"
+                                  Padding="{TemplateBinding Padding}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="14"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="24"></Setter>
                             <Setter TargetName="FloatingLabel" Property="Margin" Value="-10,-10,0,1"></Setter>
                             <Setter TargetName="FloatingLabel" Property="VerticalAlignment" Value="Top"></Setter>
                             <Setter TargetName="FloatingLabel" Property="HorizontalAlignment" Value="Left"></Setter>
@@ -73,7 +72,7 @@
                                 <Condition Property="IsKeyboardFocused" Value="False"/>
                                 <Condition Property="Text" Value=""/>
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="18"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="26"></Setter>
                             <Setter TargetName="FloatingLabel" Property="Margin" Value="-10,-3,0,0"></Setter>
                             <Setter TargetName="FloatingLabel" Property="VerticalAlignment" Value="Center"></Setter>
                             <Setter TargetName="FloatingLabel" Property="HorizontalAlignment" Value="Left"></Setter>
@@ -82,7 +81,7 @@
                         </MultiTrigger>
                         <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={StaticResource StringIsNotNullOrEmptyConverter}}" Value="False">
                             <Setter TargetName="FloatingLabel" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="14"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="24"></Setter>
                             <Setter TargetName="FloatingLabel" Property="Margin" Value="-10,-10,0,1"></Setter>
                             <Setter TargetName="FloatingLabel" Property="VerticalAlignment" Value="Top"></Setter>
                             <Setter TargetName="FloatingLabel" Property="HorizontalAlignment" Value="Left"></Setter>
@@ -94,5 +93,76 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style x:Key="CustomPasswordBox" TargetType="{x:Type PasswordBox}">
+        <Setter Property="Foreground"
+            Value="#DBDBDB" />
+        <Setter Property="FontSize"
+            Value="24" />
+        <Setter Property="FontWeight"
+            Value="Bold" />
+        <Setter Property="VerticalAlignment" 
+            Value="Center"/>
+        <Setter Property="HorizontalAlignment" 
+            Value="Left"/>
+        <Setter Property="Visibility" 
+            Value="Visible"/>
+        <Setter Property="Margin"
+            Value="5"/>
+        <Setter Property="Padding"
+            Value="0,0,0,5"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
+                    <Border Background="#272B2F"
+                    BorderThickness="0" CornerRadius="20" Padding="20,0">
+                        <Grid Height="75">
+                            <Label x:Name="FloatingLabel"
+                           Content="{TemplateBinding Tag}"
+                           Padding="10"
+                           Margin="0,0,0,0"
+                           Foreground="#009A4C"
+                           FontWeight="Bold"
+                           FontSize="24"
+                           Visibility="Collapsed"/>
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                  VerticalAlignment="Bottom"
+                                  Padding="{TemplateBinding Padding}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="24"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="Margin" Value="-10,-10,0,1"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="VerticalAlignment" Value="Top"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="HorizontalAlignment" Value="Left"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="FloatingLabel" Property="Cursor" Value="IBeam"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocused" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="26"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="Margin" Value="-10,-3,0,0"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="VerticalAlignment" Value="Center"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="HorizontalAlignment" Value="Left"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="FloatingLabel" Property="Cursor" Value="IBeam"/>
+                        </MultiTrigger>
+                        <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource Self}, Converter={StaticResource StringIsNotNullOrEmptyConverter}}" Value="False">
+                            <Setter TargetName="FloatingLabel" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="FloatingLabel" Property="FontSize" Value="24"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="Margin" Value="-10,-10,0,1"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="VerticalAlignment" Value="Top"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="HorizontalAlignment" Value="Left"></Setter>
+                            <Setter TargetName="FloatingLabel" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="FloatingLabel" Property="Cursor" Value="IBeam"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
