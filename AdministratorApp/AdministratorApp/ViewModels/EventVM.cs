@@ -204,27 +204,70 @@ namespace AdministratorApp.ViewModels
             Duration = 0;
             Description = "";
             EventDates.Clear();
+           
             Room = new Room
             {
-                Sections = RoomConfig.Sections,
                 Name = EventName,
                 Description = EventName,
+                Sections = RoomConfig.Sections,
                 RoomConfigId = RoomConfig.Id,
-            };
+            }; 
+            //var sections = new ObservableCollection<Section>(); 
+            //var rows = new ObservableCollection<Row>();
+            //var seats = new ObservableCollection<Seat>();
+            //foreach (Section roomConfigSection in RoomConfig.Sections)
+            //{
+            //    sections.Add(new Section()
+            //    {
+            //        Name = roomConfigSection.Name,
+            //        Description = roomConfigSection.Description,
+            //        Capacity = roomConfigSection.Capacity,
+            //    }); 
+            //    Room.Sections = new ObservableCollection<Section>(sections);
+            //    foreach (Row roomConfigRow in roomConfigSection.Rows)
+            //    {
+            //        foreach (Section section in Room.Sections)
+            //        {
+            //            rows.Add(new Row()
+            //            {
+            //                Name = roomConfigRow.Name,
+            //                Description = roomConfigRow.Description,
+            //                Capacity = roomConfigRow.Capacity,
+            //                IsAvailable = roomConfigRow.IsAvailable,
+            //            });
+            //            section.Rows = new ObservableCollection<Row>(rows);
+            //            foreach (Seat roomConfigSeat in roomConfigRow.Seats)
+            //            {
+            //                foreach (Row row in section.Rows)
+            //                {
+                                
+            //                    seats.Add(new Seat()
+            //                    {
+            //                        Name = roomConfigRow.Name,
+            //                        Description = roomConfigRow.Description,
+            //                        IsAvailable = roomConfigRow.IsAvailable,
+            //                    });
+            //                    row.Seats = new ObservableCollection<Seat>(seats);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
             createEditButtonName = "Créer l'évènement";
             _nav.EventCreateEdit(this); 
             createEditVisibility = Visibility.Collapsed;
         }
 
         [RelayCommand]
-        public void EventEdit(object obj)
+        public async Task EventEdit(object obj)
         {
             SelectedEvent = (Event)(obj);
             EventName = SelectedEvent.Name;
             ArtistName = SelectedEvent.ArtistName;
             Duration = 3;
             Description = SelectedEvent.Description;
-            EventDates = SelectedEvent.EventDates ?? new ObservableCollection<EventDate>();
+            EventDates = new ObservableCollection<EventDate>(await _context.EventDates.Where(ed => ed.EventId == selectedEvent.Id).ToListAsync());
+            Room = SelectedEvent.Room;
             createEditButtonName = "Modifier l'évènement";
             _nav.EventCreateEdit(this);
             createEditVisibility = Visibility.Visible;
