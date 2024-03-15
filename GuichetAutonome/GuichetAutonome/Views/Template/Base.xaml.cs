@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using GuichetAutonome.Helpers.User;
 using TicketingDatabase.Data;
 
 namespace GuichetAutonome.Views.Template
@@ -38,12 +39,13 @@ namespace GuichetAutonome.Views.Template
             }
         }
 
-        //private void Logout_Click(object sender, RoutedEventArgs e)
-        //{
-        //    LoginView login = new LoginView();
-        //    login.Show();
-        //    this.Close();
-        //}
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+            UserService.connected = null;
+            login.Show();
+            this.Close();
+        }
 
         bool IsMaximized = false;
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

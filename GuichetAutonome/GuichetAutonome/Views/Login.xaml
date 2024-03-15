@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GuichetAutonome.Views"
+        xmlns:pwb="clr-namespace:GuichetAutonome.Helpers"
+        xmlns:viewModels="clr-namespace:GuichetAutonome.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:LoginVM}"
         mc:Ignorable="d"
         Title="Login" 
         Height="1200" 
@@ -48,13 +50,13 @@
                     </TextBox>
                     <TextBlock x:Name="ErrorUserName" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <PasswordBox x:Name="PassWordText"
-                             Password=""
                              Tag="Mot de passe"
                              Height="100"
                              Width="350"
                              VerticalContentAlignment="Center"
                              HorizontalAlignment="Center"
-                             Style="{StaticResource CustomPasswordBox}">
+                             Style="{StaticResource CustomPasswordBox}"
+                             pwb:PasswordBoxBindingHelper.BoundPassword="{Binding Password, Mode=TwoWay}">
                         <PasswordBox.Background>
                             <ImageBrush ImageSource="/Views/key-icon.png"
                                         Stretch="None"
@@ -66,7 +68,8 @@
                             Content="Connexion"
                             IsDefault="True"
                             Style="{StaticResource CustomButton}"
-                            Click="LoginButton_Click">
+                            Click="LoginButton_Click"
+                            Command="{Binding LoginCommand}">
                     </Button>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     </StackPanel>
@@ -82,18 +85,24 @@
                                Style="{StaticResource Text_Style}"/>
                     <TextBlock x:Name="GeneralErrorCreation" Margin="10,10,10,5" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
                     <TextBox Tag="Nom d'utilisateur" HorizontalAlignment="Center" Height="100" Width="375" 
-                             Style="{StaticResource CustomTextBox}"/>
+                             Style="{StaticResource CustomTextBox}"
+                             Text="{Binding AddUsername}"/>
                     <TextBlock x:Name="ErrorUserNameCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <PasswordBox Tag="Mot de passe" HorizontalAlignment="Center" Height="100" Width="375"
-                                 Style="{StaticResource CustomPasswordBox}"/>
+                                 Style="{StaticResource CustomPasswordBox}"
+                                 pwb:PasswordBoxBindingHelper.BoundPassword="{Binding AddPassword, Mode=TwoWay}"/>
                     <TextBlock x:Name="ErrorPasswordCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <PasswordBox Tag="Confirmez le mot de passe" HorizontalAlignment="Center" Height="100" Width="375" 
-                                 Style="{StaticResource CustomPasswordBox}"/>
+                                 Style="{StaticResource CustomPasswordBox}"
+                                 pwb:PasswordBoxBindingHelper.BoundPassword="{Binding AddPasswordAgain, Mode=TwoWay}"/>
                     <TextBlock x:Name="ErrorPasswordAgainCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <TextBox Tag="Adresse email" HorizontalAlignment="Center" Height="100" Width="375" 
-                             Style="{StaticResource CustomTextBox}" />
+                             Style="{StaticResource CustomTextBox}"
+                             Text="{Binding AddEmail}"/>
                     <TextBlock x:Name="ErrorEmailCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
-                    <Button Content="Créer le compte" Style="{StaticResource AddButton}"/>
+                    <Button Content="Créer le compte" 
+                            Style="{StaticResource AddButton}"
+                            Command="{Binding CreateUserCommand}"/>
                 </StackPanel>
             </Grid> 
         </Grid>

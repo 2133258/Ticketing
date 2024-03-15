@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace TicketingDatabase.Models
 {
@@ -28,8 +29,9 @@ namespace TicketingDatabase.Models
 
         public ObservableCollection<Ticket>? Tickets { get; set; }
         public ObservableCollection<Sale>? Sales { get; set; }
+        public ObservableCollection<EventDate>? EventDates { get; set; }
         [NotMapped]
-        public ObservableCollection<DateTime>? EventDates { get; set; }
+        public string ImageSource { get; set; }
 
     }
 }

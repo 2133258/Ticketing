@@ -31,7 +31,9 @@ namespace GuichetAutonome.Views
             _context = new TicketingContext();
             DbInitializer.Initialize(_context);
             InitializeComponent();
-            this.DataContext = new LoginVM(_context);
+            var vm = new LoginVM(_context);
+            this.DataContext = vm;
+            vm.LoginSuccessful += ViewModel_LoginSuccessful;
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -47,11 +49,6 @@ namespace GuichetAutonome.Views
             {
                 dragVerif = true;
             }
-        }
-
-        private void CrossButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
 
         private void ViewModel_LoginSuccessful(object sender, EventArgs e)

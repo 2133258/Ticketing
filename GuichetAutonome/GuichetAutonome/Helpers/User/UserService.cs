@@ -9,6 +9,6 @@ namespace GuichetAutonome.Helpers.User
 {
     public static class UserService
     {
-        public static TicketingDatabase.Models.User? connectedEmploye { get; set; }
+        public static TicketingDatabase.Models.User? connected { get; set; }
     }
 }

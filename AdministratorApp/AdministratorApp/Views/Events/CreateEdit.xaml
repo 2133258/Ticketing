@@ -12,18 +12,36 @@
         <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>
         <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
         <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
+        <!-- Define colors for selected and unselected states -->
+        <SolidColorBrush x:Key="Item.SelectedBackground" Color="#009A4C"/>
+        <SolidColorBrush x:Key="Item.MouseOverBackground" Color="#212529"/>
+        <SolidColorBrush x:Key="Item.UnselectedBackground" Color="Transparent"/>
         <Style x:Key="ListBoxStyle" TargetType="{x:Type ListBox}">
             <Setter Property="ItemContainerStyle">
                 <Setter.Value>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Margin" Value="10"/>
                         <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="{StaticResource Item.UnselectedBackground}"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Border Background="Transparent">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="5" Padding="5">
                                         <ContentPresenter />
                                     </Border>
+                                    <ControlTemplate.Triggers>
+                                        <!-- Trigger for mouse over state -->
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource Item.MouseOverBackground}"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                        </Trigger>
+                                        <!-- Trigger for selected state -->
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource Item.SelectedBackground}"/>
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <!-- Change text color if needed -->
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -95,9 +113,11 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0" Tag="Description" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Text="{Binding Description}" Style="{StaticResource CustomTextBox}" Height="155" Width="275" HorizontalAlignment="Center"></TextBox>
                 <Button Grid.Row="1" Content="Place disponible dans la salle" Style="{StaticResource CustomButton}" Command="{Binding EventSelectionSeatCommand}"></Button>
+                <CheckBox Grid.Row="2" Content="Mettre à l'affiche" Margin="50,0" FontSize="16" FontWeight="Bold" IsChecked="{Binding IsActive}" Style="{StaticResource CustomCheckBox}"></CheckBox>
             </Grid>
         </Grid>
         <Grid Row="1" Margin="0,0,0,10">
@@ -131,14 +151,24 @@
                               Style="{StaticResource ComboBoxStyle}"/>
                 </StackPanel>
             </Grid>
-            <Button Grid.Column="1" Content="Ajouter la date" Width="175" Style="{StaticResource AddButton}" Command="{Binding AddEventDatesCommand}"></Button>
-            <ListBox Style="{DynamicResource ListBoxStyle}" ItemsSource="{Binding EventDates}" Grid.Column="2" Margin="20,10,20,20"/>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Button Content="Ajouter la date" Width="175" Style="{StaticResource AddButton}" Command="{Binding AddEventDatesCommand}"></Button>
+                <Button Content="Retirer la date" Width="175" Style="{StaticResource DeleteButton}" Command="{Binding DeleteEventDateCommand}"></Button>
+            </StackPanel>
+
+            <ListBox Style="{DynamicResource ListBoxStyle}" ItemsSource="{Binding EventDates}" SelectedItem="{Binding SelectedEventDate, Mode=TwoWay}" Grid.Column="2" Margin="20,10,20,20">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Date, StringFormat='{}{0:dd-MM-yyyy HH:mm}', ConverterCulture='fr-CA'}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
         <Grid Row="2">
             <Button Content="Retour" Command="{Binding GoBackCommand}" Style="{StaticResource CustomButton}" HorizontalAlignment="Left"></Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="{Binding CreateEditButtonName}" Style="{StaticResource AddButton}" Command="{Binding AddOrUpdateTaskCommand}"></Button>
-                <Button Content="Supprimer" Style="{StaticResource DeleteButton}" Visibility="{Binding CreateEditVisibility}"></Button>
+                <Button Content="Supprimer" Command="{Binding DeleteEventCommand}" Style="{StaticResource DeleteButton}" Visibility="{Binding CreateEditVisibility}"></Button>
             </StackPanel>
         </Grid>
     </Grid>

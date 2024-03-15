@@ -1,5 +1,4 @@
-﻿using AdministratorApp.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using GuichetAutonome.ViewModels;
 using TicketingDatabase.Data;
 using TicketingDatabase.Models;
-using Microsoft.Win32;
-using System;
-using System.Windows.Threading;
 
-namespace AdministratorApp.Views.Events
+namespace GuichetAutonome.Views.Events
 {
     /// <summary>
-    /// Interaction logic for CreateEdit.xaml
+    /// Interaction logic for Ticket.xaml
     /// </summary>
-    public partial class CreateEdit : UserControl
+    public partial class Ticket : UserControl
     {
-        public CreateEdit(object vm)
+        public Ticket(TicketingContext context, Event selectedEvent)
         {
             InitializeComponent();
-            this.DataContext = vm;
+            this.DataContext = new TicketVM(context, selectedEvent);
+
         }
     }
 }

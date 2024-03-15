@@ -28,16 +28,15 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="Nom de l'evenement" FontSize="28" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
-                <TextBlock Grid.Row="1" Text="Nom de l'artiste" Opacity="0.6" FontSize="24" Margin="25 ,0" Style="{StaticResource Text_Style}"></TextBlock>
+                <TextBlock Grid.Row="0" Text="{Binding SelectedEvent.Name}" FontSize="28" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
+                <TextBlock Grid.Row="1" Text="{Binding SelectedEvent.ArtistName}" Opacity="0.6" FontSize="24" Margin="25 ,0" Style="{StaticResource Text_Style}"></TextBlock>
                 <Grid Grid.Row="2" Margin="0,25">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="Descrition :" Opacity="1" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Row="1" Text="bla bla bla bla blab blalblallfllbbllablab bbllab bbllabbbllabbbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab bbllab  lalbla lab lblba lalb labbl albl ablbal balablb la blla b lablab lab ldssdbla bla bla bla blab blalblall fllbbllablablalbla lab lblba lalb labbl albl ablbal balablb la blla b lablab lab lbla bla bla bla blab blalblallfllbbllablablalbla lab lblba lalb labbl albl ablbal balablb la blla b lablab lab lbla bla bla bla blab blalblallfllbbllablablalbla lab lblba lalb labbl albl ablbal balablb la blla b lablab lab lbla bla bla bla blab blalblallfllbbllablablalbla lab lblba lalb labbl albl ablbal balablb la blla b lablab lab l" 
-                                            HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,0" Opacity="0.6" MaxHeight="650" TextWrapping="Wrap" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Row="0" Text="Description :" Opacity="1" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
+                    <TextBlock Grid.Row="1" Text="{Binding SelectedEvent.Description}" VerticalAlignment="Top" Margin="25,0" Opacity="0.6" MaxHeight="650" TextWrapping="Wrap" Style="{StaticResource Text_Style}"></TextBlock>
                 </Grid>
             </Grid>
             <Grid Column="1">
@@ -52,12 +51,10 @@
         <Grid Row="1" Margin="25">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Height="100" Width="300" Tag="Nombre de Billets" Margin="0,0,20,0" Style="{StaticResource CustomTextBox}"></TextBox>
-            <TextBox Grid.Column="1" Height="100"  Width="300" Tag="Choisir le siege" Margin="20,0" Style="{StaticResource CustomTextBox}"></TextBox>
-            <Button Grid.Column="2" Content="Ajouter au panier" HorizontalAlignment="Left" Style="{StaticResource AddButton}"></Button>
+            <TextBox Grid.Column="0" Height="100" Width="300" Tag="Nombre de Billets" Margin="0,0,20,0" Text="{Binding NbBillet}" Style="{StaticResource CustomTextBox}"></TextBox>
+            <Button Grid.Column="1" Content="Ajouter au panier" HorizontalAlignment="Left" Command="{Binding EventTicketChoiceCommand}" Style="{StaticResource AddButton}"></Button>
         </Grid>
         <Grid Row="3">
             <Button Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"></Button>

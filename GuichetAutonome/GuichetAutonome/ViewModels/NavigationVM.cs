@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GuichetAutonome.Helpers.User;
 using TicketingDatabase.Data;
 using TicketingDatabase.Models;
 
@@ -19,6 +20,8 @@ namespace GuichetAutonome.ViewModels
         {
             _context = context;
             currentViews = new List<object>();
+            EventList(this);
+            connectedUser = UserService.connected;
         }
 
         [ObservableProperty]
@@ -32,6 +35,9 @@ namespace GuichetAutonome.ViewModels
 
         [ObservableProperty]
         Visibility adminButtonVisibility;
+
+        [ObservableProperty]
+        private User connectedUser;
 
 
         /* ------------------------ Events ------------------------ */
@@ -48,6 +54,13 @@ namespace GuichetAutonome.ViewModels
             CurrentView = new Views.Events.Details(vm);
             CurrentViews.Add(CurrentView);
         }
+        [RelayCommand] /* ---- TicketChoiceView ---- */
+        public void EventTicketChoice(EventVM vm)
+        {
+            CurrentView = new Views.Events.TicketChoice(vm);
+            CurrentViews.Add(CurrentView);
+        }
+
 
         /* ------------------------ Events ------------------------ */
         [RelayCommand] /* ---- MainView ---- */

@@ -15,6 +15,7 @@ using System.Windows;
 using AdministratorApp.Views.Template;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
+using Microsoft.Extensions.Logging;
 
 namespace AdministratorApp.ViewModels
 {
@@ -22,14 +23,19 @@ namespace AdministratorApp.ViewModels
     {
         TicketingContext _context;
         NavigationVM _nav;
-        Event _event;
         private bool _isModify;
         public EventVM(TicketingContext context, NavigationVM nav)
         {
             _context = context;
             _nav = nav;
             _isModify = false;
-            LoadEventsAsync();
+            Initializer();
+        }
+
+        private async void Initializer()
+        {
+            await LoadEventsAsync();
+            await LoadRoomConfigAsync();
         }
 
         [ObservableProperty] ObservableCollection<Event> events;
@@ -40,27 +46,52 @@ namespace AdministratorApp.ViewModels
         [ObservableProperty] int duration;
         [ObservableProperty] string imageSelection;
         [ObservableProperty] string description; 
+        [ObservableProperty] bool isActive;
 
         [ObservableProperty] Section selectedSection;
 
         [ObservableProperty] Visibility createEditVisibility;
         [ObservableProperty] string createEditButtonName;
 
-        [ObservableProperty] ObservableCollection<DateTime> eventDates; 
+        [ObservableProperty] ObservableCollection<EventDate> eventDates; 
         [ObservableProperty] DateTime? selectedDate; 
+        [ObservableProperty] EventDate selectedEventDate;
         [ObservableProperty] private int _selectedHour;
         [ObservableProperty] private int _selectedMinute;
         [ObservableProperty] private ObservableCollection<int> hours;
         [ObservableProperty] private ObservableCollection<int> minutes;
 
+        [ObservableProperty] RoomConfig roomConfig;
+        [ObservableProperty] Room room;
+        [ObservableProperty] private Section selectedSectionRoom;
+        [ObservableProperty] private Row selectedRow;
+
+
+        public async Task LoadRoomConfigAsync()
+        {
+            try
+            {
+                var config = await _context.RoomConfigs
+                    .Include(r => r.Sections)
+                    .ThenInclude(s => s.Rows)
+                    .ThenInclude(r => r.Seats)
+                    .FirstOrDefaultAsync(); // Assuming a single config for simplification
+
+                RoomConfig = config ?? new RoomConfig { Sections = new ObservableCollection<Section>() };
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         public async Task LoadEventsAsync()
         {
-            var events = await _context.Events.ToListAsync();
+            var events = await _context.Events.Include(e => e.Room).ThenInclude(r => r.Sections).ThenInclude(s => s.Rows).ThenInclude(r => r.Seats).ToListAsync();
             Events = new ObservableCollection<Event>(events);
 
             Hours = new ObservableCollection<int>(Enumerable.Range(0, 24));
             Minutes = new ObservableCollection<int>(Enumerable.Range(0, 12).Select(i => i * 5));
-            EventDates = new ObservableCollection<DateTime>();
+            EventDates = new ObservableCollection<EventDate>();
         }
 
         [RelayCommand]
@@ -74,42 +105,41 @@ namespace AdministratorApp.ViewModels
             
             if (_isModify)
             {
-                _event.Name = eventName;
-                _event.ArtistName = artistName;
-                _event.Description = description;
-                _event.IsActive = true;
-                UpdateEventAsync(_event);
+                await UpdateEventAsync();
             }
             else
             {
-                Event newEvent = new Event();
-                newEvent.Name = eventName;
-                newEvent.ArtistName = artistName;
-                newEvent.Description = description;
-                newEvent.IsActive = true;
-                AddEventAsync(newEvent);
+                await AddEventAsync();
             }
         }
 
-        public async Task AddEventAsync(Event newEvent)
+        public async Task AddEventAsync()
         {
-            _context.Events.Add(newEvent);
+            Event newEvent = new Event();
+            newEvent.Name = eventName;
+            newEvent.ArtistName = artistName;
+            newEvent.Description = description;
+            newEvent.IsActive = isActive;
+            newEvent.EventDates = new ObservableCollection<EventDate>(EventDates);
+            newEvent.Room = Room;
+            Events.Add(newEvent);
+            await _context.Events.AddAsync(newEvent);
             await _context.SaveChangesAsync();
-            GoBack(this);
-            LoadEventsAsync();
+            _nav.EventList(this);
         }
 
-        public async Task UpdateEventAsync(Event updatedEvent)
+        public async Task UpdateEventAsync()
         {
-            if (_event != null)
+            if (SelectedEvent != null)
             {
-                var eventToUpdate = await _context.Events.FirstOrDefaultAsync(e => e.Id == updatedEvent.Id);
+                var eventToUpdate = await _context.Events.Include(e => e.Room).ThenInclude(r => r.Sections).ThenInclude(s => s.Rows).ThenInclude(r => r.Seats).FirstOrDefaultAsync(e => e.Id == SelectedEvent.Id);
                 // Update properties
-                eventToUpdate.Name = updatedEvent.Name;
-                eventToUpdate.ArtistName = updatedEvent.ArtistName;
-                eventToUpdate.Description = updatedEvent.Description;
-                eventToUpdate.IsActive = true;
-                // Set other properties similarly
+                SelectedEvent.Name = EventName;
+                SelectedEvent.ArtistName = ArtistName;
+                SelectedEvent.Description = Description;
+                SelectedEvent.IsActive = isActive;
+                SelectedEvent.ImageSource = "";
+                SelectedEvent.Room = Room;
 
                 await _context.SaveChangesAsync();
                 _nav.EventList(this);
@@ -117,14 +147,14 @@ namespace AdministratorApp.ViewModels
         }
 
         [RelayCommand]
-        public async Task DeleteEventAsync(int eventId)
+        public async Task DeleteEventAsync()
         {
-            var eventToDelete = await _context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
-            if (eventToDelete != null)
+            if (selectedEvent != null)
             {
-                _context.Events.Remove(eventToDelete);
+                Events.Remove(selectedEvent);
+                _context.Events.Remove(selectedEvent);
                 await _context.SaveChangesAsync();
-                LoadEventsAsync();
+                _nav.EventList(this);
             }
         }
 
@@ -144,23 +174,46 @@ namespace AdministratorApp.ViewModels
         {
             if (SelectedDate.HasValue && SelectedHour >= 0 && SelectedMinute >= 0)
             {
-                DateTime eventDateTime = new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month, SelectedDate.Value.Day, SelectedHour, SelectedMinute, 0);
+                EventDate eventDateTime = new EventDate();
+                eventDateTime.Date = new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month,
+                    SelectedDate.Value.Day, SelectedHour, SelectedMinute, 0);
                 EventDates.Add(eventDateTime);
+                //Mettre la liste en ordre de date a chaque ajout
+                EventDates = new ObservableCollection<EventDate>(EventDates.OrderBy(d => d.Date));
             }
-            else
-            {
+        }
 
+        [RelayCommand]
+        public async Task DeleteEventDate()
+        {
+            if (SelectedEventDate != null)
+            {
+                EventDates.Remove(SelectedEventDate);
+                SelectedEventDate = null; // Optionally clear selection
             }
         }
 
         #region NavigationCommand
 
         [RelayCommand]
-        public void EventCreate(object obj)
+        public void EventCreate()
         {
             _isModify = false;
+            EventName = "";
+            ArtistName = "";
+            Duration = 0;
+            Description = "";
+            EventDates.Clear();
+            Room = new Room
+            {
+                Sections = RoomConfig.Sections,
+                Name = EventName,
+                Description = EventName,
+                RoomConfigId = RoomConfig.Id,
+            };
             createEditButtonName = "Créer l'évènement";
-            _nav.EventCreateEdit(this);
+            _nav.EventCreateEdit(this); 
+            createEditVisibility = Visibility.Collapsed;
         }
 
         [RelayCommand]
@@ -171,8 +224,10 @@ namespace AdministratorApp.ViewModels
             ArtistName = SelectedEvent.ArtistName;
             Duration = 3;
             Description = SelectedEvent.Description;
+            EventDates = SelectedEvent.EventDates ?? new ObservableCollection<EventDate>();
             createEditButtonName = "Modifier l'évènement";
             _nav.EventCreateEdit(this);
+            createEditVisibility = Visibility.Visible;
         }
 
         [RelayCommand]

@@ -14,13 +14,13 @@ namespace TicketingDatabase.Models
         [Column("ClientId"), Key]
         public int Id { get; set; }
         [Column("ClientFirstName")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
         [Column("ClientLastName")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
         [Column("ClientEmail")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         [Column("ClientPhone")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [NotMapped]
         public ObservableCollection<Ticket> Cart { get; set; }

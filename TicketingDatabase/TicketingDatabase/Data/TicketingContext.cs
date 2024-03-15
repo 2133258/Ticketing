@@ -60,7 +60,7 @@ namespace TicketingDatabase.Data
             modelBuilder.Entity<Client>().ToTable("ClientUser");
             modelBuilder.Entity<Administrator>().ToTable("AdministratorUser");
             modelBuilder.Entity<Accountant>().ToTable("AccountantUser");
-
+            modelBuilder.Entity<EventDate>().ToTable("EventDate");
         }
     }
 

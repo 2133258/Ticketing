@@ -34,16 +34,16 @@
 
                 <StackPanel HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Mailliw" Style="{StaticResource Text_Style}"></TextBlock>
+                        <TextBlock Text="{Binding ConnectedUser.UserName}" Style="{StaticResource Text_Style}"></TextBlock>
                         <Button Margin="20,15" Cursor="Hand" Background="Transparent" BorderBrush="Transparent"
                             FontWeight="Bold" FontSize="16"
-                            VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource ExitApp}">
+                            VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource ExitApp}" Click="Logout_Click">
                         </Button>
                     </StackPanel>
 
 
                     <RadioButton Style="{StaticResource MenuButton}"
-                     Command="{Binding EventListCommand}">
+                     Command="{Binding EventListCommand}" IsChecked="True">
                         <Grid>
                             <Image Style="{StaticResource Image_Style}" Source="/Views/Template/calendar.png" >
                             </Image>
