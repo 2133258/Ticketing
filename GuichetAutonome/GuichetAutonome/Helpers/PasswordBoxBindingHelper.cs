@@ -11,7 +11,7 @@ namespace GuichetAutonome.Helpers
     public static class PasswordBoxBindingHelper
     {
         public static readonly DependencyProperty BoundPasswordProperty =
-            DependencyProperty.RegisterAttached("BoundPassword", typeof(string), typeof(PasswordBoxBindingHelper), new PropertyMetadata(string.Empty, OnBoundPasswordChanged));
+        DependencyProperty.RegisterAttached("BoundPassword", typeof(string), typeof(PasswordBoxBindingHelper), new PropertyMetadata(string.Empty, OnBoundPasswordChanged));
 
         public static string GetBoundPassword(DependencyObject d)
         {
@@ -40,5 +40,6 @@ namespace GuichetAutonome.Helpers
             SetBoundPassword(box, box.Password);
         }
     }
+
 
 }

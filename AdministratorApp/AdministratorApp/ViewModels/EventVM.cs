@@ -44,7 +44,6 @@ namespace AdministratorApp.ViewModels
         [ObservableProperty] string eventName;
         [ObservableProperty] private string artistName;
         [ObservableProperty] int duration;
-        [ObservableProperty] string imageSelection;
         [ObservableProperty] string description; 
         [ObservableProperty] bool isActive;
 
@@ -75,7 +74,7 @@ namespace AdministratorApp.ViewModels
                     .Include(r => r.Sections)
                     .ThenInclude(s => s.Rows)
                     .ThenInclude(r => r.Seats)
-                    .FirstOrDefaultAsync(); // Assuming a single config for simplification
+                    .FirstOrDefaultAsync();
 
                 RoomConfig = config ?? new RoomConfig { Sections = new ObservableCollection<Section>() };
             }
@@ -84,6 +83,7 @@ namespace AdministratorApp.ViewModels
                 throw e;
             }
         }
+
         public async Task LoadEventsAsync()
         {
             var events = await _context.Events.Include(e => e.Room).ThenInclude(r => r.Sections).ThenInclude(s => s.Rows).ThenInclude(r => r.Seats).ToListAsync();
@@ -98,7 +98,7 @@ namespace AdministratorApp.ViewModels
         public async Task AddOrUpdateTask()
         {
             if (string.IsNullOrEmpty(eventName) || string.IsNullOrEmpty(artistName) || string.IsNullOrEmpty(description) ||
-                duration == null || duration <= 0 || string.IsNullOrEmpty(imageSelection))
+                duration == null || duration <= 0)
             {
                 return;
             }
@@ -132,17 +132,20 @@ namespace AdministratorApp.ViewModels
         {
             if (SelectedEvent != null)
             {
-                var eventToUpdate = await _context.Events.Include(e => e.Room).ThenInclude(r => r.Sections).ThenInclude(s => s.Rows).ThenInclude(r => r.Seats).FirstOrDefaultAsync(e => e.Id == SelectedEvent.Id);
-                // Update properties
-                SelectedEvent.Name = EventName;
-                SelectedEvent.ArtistName = ArtistName;
-                SelectedEvent.Description = Description;
-                SelectedEvent.IsActive = isActive;
-                SelectedEvent.ImageSource = "";
-                SelectedEvent.Room = Room;
-
-                await _context.SaveChangesAsync();
-                _nav.EventList(this);
+                var eventToUpdate = await _context.Events.FirstOrDefaultAsync(e => e.Id == SelectedEvent.Id);
+                if (eventToUpdate != null)
+                {
+                    // Update properties
+                    SelectedEvent.Name = EventName;
+                    SelectedEvent.ArtistName = ArtistName;
+                    SelectedEvent.Description = Description;
+                    SelectedEvent.IsActive = isActive;
+                    SelectedEvent.ImageSource = "";
+                    SelectedEvent.Room = Room;
+                    _context.Events.Update(eventToUpdate);
+                    await _context.SaveChangesAsync();
+                    _nav.EventList(this);
+                }
             }
         }
 
@@ -204,55 +207,53 @@ namespace AdministratorApp.ViewModels
             Duration = 0;
             Description = "";
             EventDates.Clear();
-           
+
             Room = new Room
             {
                 Name = EventName,
                 Description = EventName,
-                Sections = RoomConfig.Sections,
                 RoomConfigId = RoomConfig.Id,
-            }; 
-            //var sections = new ObservableCollection<Section>(); 
-            //var rows = new ObservableCollection<Row>();
-            //var seats = new ObservableCollection<Seat>();
-            //foreach (Section roomConfigSection in RoomConfig.Sections)
-            //{
-            //    sections.Add(new Section()
-            //    {
-            //        Name = roomConfigSection.Name,
-            //        Description = roomConfigSection.Description,
-            //        Capacity = roomConfigSection.Capacity,
-            //    }); 
-            //    Room.Sections = new ObservableCollection<Section>(sections);
-            //    foreach (Row roomConfigRow in roomConfigSection.Rows)
-            //    {
-            //        foreach (Section section in Room.Sections)
-            //        {
-            //            rows.Add(new Row()
-            //            {
-            //                Name = roomConfigRow.Name,
-            //                Description = roomConfigRow.Description,
-            //                Capacity = roomConfigRow.Capacity,
-            //                IsAvailable = roomConfigRow.IsAvailable,
-            //            });
-            //            section.Rows = new ObservableCollection<Row>(rows);
-            //            foreach (Seat roomConfigSeat in roomConfigRow.Seats)
-            //            {
-            //                foreach (Row row in section.Rows)
-            //                {
-                                
-            //                    seats.Add(new Seat()
-            //                    {
-            //                        Name = roomConfigRow.Name,
-            //                        Description = roomConfigRow.Description,
-            //                        IsAvailable = roomConfigRow.IsAvailable,
-            //                    });
-            //                    row.Seats = new ObservableCollection<Seat>(seats);
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+            };
+
+            var sections = new ObservableCollection<Section>();
+
+            foreach (Section roomConfigSection in RoomConfig.Sections)
+            {
+                var newSection = new Section()
+                {
+                    Name = roomConfigSection.Name,
+                    Description = roomConfigSection.Description,
+                    Capacity = roomConfigSection.Capacity,
+                    Rows = new ObservableCollection<Row>() // Create a new collection for rows
+                };
+
+                foreach (Row roomConfigRow in roomConfigSection.Rows)
+                {
+                    var newRow = new Row()
+                    {
+                        Name = roomConfigRow.Name,
+                        Description = roomConfigRow.Description,
+                        Capacity = roomConfigRow.Capacity,
+                        IsAvailable = roomConfigRow.IsAvailable,
+                        Seats = new ObservableCollection<Seat>() // Create a new collection for seats
+                    };
+
+                    foreach (Seat roomConfigSeat in roomConfigRow.Seats)
+                    {
+                        newRow.Seats.Add(new Seat()
+                        {
+                            Name = roomConfigSeat.Name,
+                            Description = roomConfigSeat.Description,
+                            IsAvailable = roomConfigSeat.IsAvailable,
+                        });
+                    }
+
+                    newSection.Rows.Add(newRow); // Add the new row to the section
+                }
+
+                sections.Add(newSection); // Add the new section to the room
+            }
+            Room.Sections = sections; // Assign the sections to the room
             createEditButtonName = "Créer l'évènement";
             _nav.EventCreateEdit(this); 
             createEditVisibility = Visibility.Collapsed;
@@ -261,10 +262,11 @@ namespace AdministratorApp.ViewModels
         [RelayCommand]
         public async Task EventEdit(object obj)
         {
+            _isModify = true;
             SelectedEvent = (Event)(obj);
             EventName = SelectedEvent.Name;
             ArtistName = SelectedEvent.ArtistName;
-            Duration = 3;
+            Duration = 75;
             Description = SelectedEvent.Description;
             EventDates = new ObservableCollection<EventDate>(await _context.EventDates.Where(ed => ed.EventId == selectedEvent.Id).ToListAsync());
             Room = SelectedEvent.Room;

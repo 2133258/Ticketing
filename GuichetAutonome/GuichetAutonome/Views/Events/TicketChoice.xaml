@@ -20,11 +20,54 @@
                 </Border.Background>
             </Border>
         </Grid>
-        <Grid Margin="10" VerticalAlignment="Top">
-            <Button Content="-" Height="150" Width="150" FontSize="36" Margin="0" HorizontalAlignment="Left" Style="{StaticResource DeleteButton}"/>
-            <Button Content="+" Height="150" Width="150" FontSize="36" Margin="0" HorizontalAlignment="Right" Style="{StaticResource AddButton}"/>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ComboBox Margin="5"
+                          Text="Select Section"
+                          Foreground="White"
+                          ItemsSource="{Binding Sections}"
+                          SelectedItem="{Binding SelectedSection}"
+                          Style="{StaticResource ComboBoxStyle}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox Margin="5"
+                          HorizontalAlignment="Right"
+                          Text="Select Section"
+                          Foreground="White"
+                          ItemsSource="{Binding SelectedSection.Rows}"
+                          SelectedItem="{Binding SelectedRow}"
+                          Style="{StaticResource ComboBoxStyle}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ScrollViewer Grid.Row="1">
+                <ListView  Margin="20,0,0,0" ItemsSource="{Binding SelectedRow.Seats}" SelectedItem="{Binding SelectedSeat}" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItemTicket}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                                <Button Content="Ajouter" HorizontalAlignment="Right" Style="{StaticResource AddButton}" Command="{Binding DataContext.AddSeatToListCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></Button>
+                        </Grid>
+                        
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            </ScrollViewer>
+            
+            <ListView Grid.Row="2" Margin="20,0,0,0" ItemsSource="{Binding SelectedSection.Rows}" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItemTicket}">
+            </ListView>
         </Grid>
-        <ListView Grid.Column="1" Margin="20,0,0,0" ItemsSource="{Binding TicketViews}" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItemTicket}">
-        </ListView>
+        <Button Content="Retour" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"></Button>
     </Grid>
 </UserControl>

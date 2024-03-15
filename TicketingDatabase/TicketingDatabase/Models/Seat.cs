@@ -24,7 +24,8 @@ namespace TicketingDatabase.Models
         public int RowId { get; set; }
         public Row? Row { get; set; }
 
-        public ObservableCollection<Ticket>? Tickets { get; set; }
-
+        [Column("TicketId"), ForeignKey("Ticket")]
+        public int TicketId { get; set; }
+        public Ticket? Ticket { get; set; }
     }
 }

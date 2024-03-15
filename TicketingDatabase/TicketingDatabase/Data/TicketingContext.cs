@@ -13,7 +13,7 @@ namespace TicketingDatabase.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                "server=localhost;port=3306;database=ticketingdb;user=root;password=14085Smitypro",
+                "server=sql.decinfo-cchic.ca;port=33306;database=h24_esp_projet_2133258;user=dev-2133258;password=14085Smitypro",
                 new MySqlServerVersion(new Version(8, 0, 21)),
                 mySqlOptions => mySqlOptions.EnableRetryOnFailure());
         }

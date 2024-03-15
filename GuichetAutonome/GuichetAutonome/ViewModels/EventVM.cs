@@ -22,23 +22,53 @@ namespace GuichetAutonome.ViewModels
         {
             _context = context;
             _nav = nav;
-            LoadEventsAsync();
+            Initializer();
         }
-        
-        [ObservableProperty]
-        ObservableCollection<Views.Events.Ticket> ticketViews;
+
+        private async Task Initializer()
+        {
+            await LoadEventsAsync();
+        }
 
         [ObservableProperty] ObservableCollection<Event> events;
         [ObservableProperty] Event selectedEvent;
 
         [ObservableProperty] int nbBillet;
 
+        [ObservableProperty] private Section selectedSection;
+        [ObservableProperty] private ObservableCollection<Section> sections;
+        [ObservableProperty] private Row selectedRow;
+        [ObservableProperty] private Seat selectedSeat;
+
+        [ObservableProperty] private ObservableCollection<Ticket> chosenTickets;
+        [ObservableProperty] private ObservableCollection<Ticket> availableTickets;
+
+
+        public async Task LoadTicketsAsync()
+        {
+            var sections = await _context.Sections.Include(s => s.Rows).ThenInclude(r => r.Seats.Where(s => s.IsAvailable)).ThenInclude(s => s.Ticket).Where(s => s.RoomId == selectedEvent.RoomId).ToListAsync();
+            var availableTickets = await _context.Tickets.Where(t => t.EventId == selectedEvent.Id).Where(t => t.Status == "Available").ToListAsync();
+            Sections = new ObservableCollection<Section>(sections);
+            AvailableTickets = new ObservableCollection<Ticket>(availableTickets);
+        }
 
         public async Task LoadEventsAsync()
         {
             var events = await _context.Events.Where(e => e.IsActive).ToListAsync();
             Events = new ObservableCollection<Event>(events);
-            TicketViews = new ObservableCollection<Views.Events.Ticket>();
+        }
+
+        [RelayCommand]
+        public async Task AddSeatToList(object obj)
+        {
+            if (obj is not Seat) return;
+            Seat seat = (Seat)obj;
+
+            if (AvailableTickets.Contains(seat.Ticket))
+            {
+                ChosenTickets.Add(seat.Ticket);
+                seat.Ticket.Status = "Pending";
+            }
         }
 
         [RelayCommand]
@@ -49,10 +79,10 @@ namespace GuichetAutonome.ViewModels
         }
 
         [RelayCommand]
-        public void EventTicketChoice()
+        public async Task EventTicketChoice()
         {
             if (nbBillet <= 0 || nbBillet > 4) { return; }
-            SetTicketList();
+            await LoadTicketsAsync();
             _nav.EventTicketChoice(this);
         }
 
@@ -62,16 +92,5 @@ namespace GuichetAutonome.ViewModels
             _nav.CurrentViews.Remove(_nav.CurrentViews[_nav.CurrentViews.Count - 1]);
             _nav.CurrentView = _nav.CurrentViews[_nav.CurrentViews.Count - 1];
         }
-
-        private void SetTicketList()
-        {
-            TicketViews.Clear();
-            TicketViews = new ObservableCollection<Views.Events.Ticket>();
-            for (int i = 0; i < NbBillet; i++)
-            {
-                TicketViews.Add(new Views.Events.Ticket(_context, SelectedEvent));
-            }
-        }
-
     }
 }

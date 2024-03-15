@@ -102,12 +102,10 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0" Tag="Nom de l'évènement" Text="{Binding EventName}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
                 <TextBox Grid.Row="1" Tag="Nom de l'artiste" Text="{Binding ArtistName}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
                 <TextBox Grid.Row="2" Tag="Durée (En Minutes)" Text="{Binding Duration}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
-                <TextBox Grid.Row="3" Tag="Selection d'image" Text="{Binding ImageSelection}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
             </Grid>
             <Grid Column="2" >
                 <Grid.RowDefinitions>
