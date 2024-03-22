@@ -25,6 +25,8 @@
     <Style x:Key="CustomTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Foreground"
             Value="#DBDBDB" />
+        <Setter Property="CaretBrush"
+                Value="#DBDBDB" />
         <Setter Property="FontSize"
             Value="24" />
         <Setter Property="FontWeight"
@@ -97,6 +99,8 @@
     <Style x:Key="CustomPasswordBox" TargetType="{x:Type PasswordBox}">
         <Setter Property="Foreground"
             Value="#DBDBDB" />
+        <Setter Property="CaretBrush"
+                Value="#DBDBDB" />
         <Setter Property="FontSize"
             Value="24" />
         <Setter Property="FontWeight"

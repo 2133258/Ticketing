@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AdministratorApp.Views.Template"
         MinWidth="450"
         MinHeight="200"
-        MaxWidth="450"
+        MaxWidth="{Binding Width}"
         VerticalAlignment="Stretch"
         mc:Ignorable="d"
         AllowsTransparency="True"
@@ -16,7 +16,7 @@
         Title="DeleteVerificationView"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
-    <Border Background="#212529" CornerRadius="20">
+    <Border Background="#212529" CornerRadius="20" BorderBrush="#272B2F" BorderThickness="8">
         <Grid MouseDown="Grid_MouseDown">
             <Grid>
                 <Grid.RowDefinitions>
@@ -36,9 +36,11 @@
                 </Border>
                 <Grid Grid.Row="1" Background="Transparent">
                     <Button Width="175" Content="Supprimer" HorizontalAlignment="Right" Command="{Binding ConfirmDelete}"
-                    Style="{StaticResource DeleteButton}" Margin="20" Click="DeleteClick"></Button>
+                    Style="{StaticResource DeleteButton}" Margin="20" Click="DeleteClick" Visibility="{Binding IsDeleteVisibility}"></Button>
+                    <Button Width="175" Content="Ok" HorizontalAlignment="Center" Command="{Binding ConfirmDelete}"
+                            Style="{StaticResource CustomButton}" Margin="20" Click="StopClick" Visibility="{Binding IsNotDeleteVisibility}"></Button>
                     <Button Width="175" Content="Annuler" HorizontalAlignment="Left" Command="{Binding DenyDelete}"
-                    Style="{StaticResource CustomButton}" Margin="20" Click="StopClick"></Button>
+                    Style="{StaticResource CustomButton}" Margin="20" Click="StopClick" Visibility="{Binding IsDeleteVisibility}"></Button>
                 </Grid>
             </Grid>
         </Grid>

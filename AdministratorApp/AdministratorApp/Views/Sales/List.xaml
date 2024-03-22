@@ -24,9 +24,9 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Button Grid.ColumnSpan="3" Tag="{Binding}" Command="{Binding DataContext.SaleDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource ButtonList}"/>
-                            <TextBlock Grid.Column="0" Text="{Binding Date}" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Grid.Column="0" Text="{Binding Date, StringFormat='{}{0:Le dd MMMM yyyy à hh:mm}',ConverterCulture='fr-CA'}" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
                             <TextBlock Grid.Column="1" Text="{Binding Id}" HorizontalAlignment="Center" Style="{StaticResource Text_Style}"></TextBlock>
-                            <TextBlock Grid.Column="2" Text="{Binding TotalPriceTax}" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Grid.Column="2" Text="{Binding TotalPriceTax, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
                         </Grid>
                     </Border>
                 </DataTemplate>

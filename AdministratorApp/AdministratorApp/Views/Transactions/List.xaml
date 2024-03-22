@@ -19,9 +19,9 @@
                     <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
                         <Grid>
                             <Button Grid.ColumnSpan="3" Tag="{Binding}" Command="{Binding DataContext.TransactionDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource ButtonList}"/>
-                            <TextBlock Text="{Binding Date}" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="{Binding Date, StringFormat='{}{0:Le dd MMMM yyyy à hh:mm}',ConverterCulture='fr-CA'}" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
                             <TextBlock Text="{Binding Id}" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
-                            <TextBlock Text="{Binding TotalPriceTax}" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="{Binding TotalPriceTax, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
                             <TextBlock Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
                         </Grid>
                     </Border>

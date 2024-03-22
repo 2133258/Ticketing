@@ -29,6 +29,11 @@
                 <StackPanel Width="400"
                             Orientation="Vertical"
                             VerticalAlignment="Center">
+                    <Border Height="200" Width="250" Margin="20">
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Views/Logo(1).png"></ImageBrush>
+                        </Border.Background>
+                    </Border>
                     <TextBlock Text="Connexion"
                                HorizontalAlignment="Center"
                                Margin="0" FontSize="36"
@@ -42,11 +47,6 @@
                              VerticalContentAlignment="Center"
                              HorizontalAlignment="Center"
                              Style="{StaticResource CustomTextBox}">
-                        <TextBox.Background>
-                            <ImageBrush ImageSource="/Views/user-icon.png"
-                                        Stretch="None"
-                                        AlignmentX="Left"/>
-                        </TextBox.Background>
                     </TextBox>
                     <TextBlock x:Name="ErrorUserName" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <PasswordBox x:Name="PassWordText"
@@ -57,11 +57,6 @@
                              HorizontalAlignment="Center"
                              Style="{StaticResource CustomPasswordBox}"
                              pwb:PasswordBoxBindingHelper.BoundPassword="{Binding Password, Mode=TwoWay}">
-                        <PasswordBox.Background>
-                            <ImageBrush ImageSource="/Views/key-icon.png"
-                                        Stretch="None"
-                                        AlignmentX="Left"/>
-                        </PasswordBox.Background>
                     </PasswordBox>
                     <TextBlock x:Name="ErrorPassWord" Margin="10,2,10,15" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <Button x:Name="LoginButton"
@@ -98,7 +93,8 @@
                     <TextBlock x:Name="ErrorPasswordAgainCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <TextBox Tag="Adresse email" HorizontalAlignment="Center" Height="100" Width="375" 
                              Style="{StaticResource CustomTextBox}"
-                             Text="{Binding AddEmail}"/>
+                             Text="{Binding AddEmail}"
+                             x:Name="EmailTextBox" LostFocus="EmailTextBox_LostFocus"/>
                     <TextBlock x:Name="ErrorEmailCreation" Margin="10,2,10,0" Foreground="Red" Opacity="0.35" Style="{StaticResource Text_Style}"></TextBlock>
                     <Button Content="Créer le compte" 
                             Style="{StaticResource AddButton}"

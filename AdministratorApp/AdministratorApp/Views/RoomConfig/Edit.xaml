@@ -49,7 +49,6 @@
             <Button Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Nouvelle Range" Style="{StaticResource AddButton}" Command="{Binding AddEmptyRowCommand}"/>
-                <Button Content="Sauvegarder les sections" Style="{StaticResource AddButton}"/>
                 <Button Content="Supprimer Section" Style="{StaticResource DeleteButton}" Command="{Binding DeleteSectionCommand}"/>
             </StackPanel>
         </Grid>

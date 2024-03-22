@@ -25,5 +25,8 @@ namespace TicketingDatabase.Models
         public int UserId { get; set; }
         public User? User { get; set; }
 
+        [Column("TransactionId"), ForeignKey("Transaction")]
+        public int TransactionId { get; set; }
+        public Transaction? Transaction { get; set; }
     }
 }

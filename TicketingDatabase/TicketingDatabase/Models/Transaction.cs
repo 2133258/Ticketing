@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace TicketingDatabase.Models
 {
@@ -30,5 +31,8 @@ namespace TicketingDatabase.Models
         [Column("UserId"), ForeignKey("User")]
         public int UserId { get; set; }
         public User? User { get; set; }
+
+        public ObservableCollection<DigitalTicket>? DigitalTickets { get; set; }
+
     }
 }

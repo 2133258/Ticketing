@@ -61,12 +61,13 @@ namespace GuichetAutonome.ViewModels
             CurrentViews.Add(CurrentView);
         }
 
-
+        [ObservableProperty] bool cartIsChecked;
         /* ------------------------ Events ------------------------ */
         [RelayCommand] /* ---- MainView ---- */
-        private void CartDetails(object obj)
+        public void CartDetails(object obj)
         {
-            CurrentViews.Clear();
+            CurrentViews.Clear(); 
+            CartIsChecked = true;
             CurrentView = new Views.Cart.Details(_context, this);
             CurrentViews.Add(CurrentView);
         }
@@ -74,6 +75,12 @@ namespace GuichetAutonome.ViewModels
         public void CartPayment(CartVM vm)
         {
             CurrentView = new Views.Cart.Payments(vm);
+            CurrentViews.Add(CurrentView);
+        }
+        [RelayCommand] /* ---- PaymentView ---- */
+        public void SuccessPage(CartVM vm)
+        {
+            CurrentView = new Views.Cart.SuccessPayment(vm);
             CurrentViews.Add(CurrentView);
         }
 

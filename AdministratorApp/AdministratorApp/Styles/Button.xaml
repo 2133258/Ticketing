@@ -180,7 +180,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Name="Border" BorderThickness="4" Margin="-2" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="#009A4C">
+                    <Border Name="Border" BorderThickness="8" Margin="-2" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="#272B2F">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
@@ -189,11 +189,10 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Cursor" Value="Pen"/>
-                <Setter Property="Foreground" Value="#009A4C"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border Name="Border" BorderThickness="5" Margin="-10" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="#009A4C">
+                            <Border Name="Border" BorderThickness="8" Margin="-15" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="#272B2F">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         </ControlTemplate>

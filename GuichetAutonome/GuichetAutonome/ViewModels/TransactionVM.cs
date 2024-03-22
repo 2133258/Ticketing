@@ -1,12 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MimeKit;
+using QRCoder;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 using TicketingDatabase.Data;
 using TicketingDatabase.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 
 namespace GuichetAutonome.ViewModels
 {
@@ -20,13 +26,23 @@ namespace GuichetAutonome.ViewModels
         {
             _context = context;
             _nav = nav;
+            LoadTransactionsAsync();
         }
 
-        public TransactionVM(TicketingContext context, Transaction transaction, NavigationVM nav)
+        [ObservableProperty] private ObservableCollection<Transaction> transactions;
+        [ObservableProperty] private Transaction selectedTransaction;
+
+
+        public async Task LoadTransactionsAsync()
         {
-            _context = context;
-            _nav = nav;
-            _transaction = transaction;
+            Transactions = new ObservableCollection<Transaction>(_context.Transactions.Include(t => t.DigitalTickets).ThenInclude(dt => dt.Ticket).ThenInclude(t => t.EventDate).Include(t => t.DigitalTickets).ThenInclude(dt => dt.Ticket).ThenInclude(t => t.Event));
+        }
+
+        [RelayCommand]
+        public void TransactionDetails(object obj)
+        {
+            selectedTransaction = (Transaction)(obj);
+            _nav.TransactionDetails(this);
         }
 
         [RelayCommand]

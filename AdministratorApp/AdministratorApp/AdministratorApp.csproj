@@ -11,9 +11,11 @@
   <ItemGroup>
     <None Remove="Styles\shutdown_def.png" />
     <None Remove="Styles\shutdown_mo.png" />
+    <None Remove="Views\Events\defaultEventImage.png" />
     <None Remove="Views\Events\SimonLeblanc-580x614.jpg" />
     <None Remove="Views\RoomConfig\Salle.png" />
     <None Remove="Views\Template\calendar.png" />
+    <None Remove="Views\Template\Logo%281%29.png" />
     <None Remove="Views\Template\report.png" />
     <None Remove="Views\Template\setting.png" />
     <None Remove="Views\Template\theater.png" />
@@ -22,8 +24,10 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="MailKit" Version="3.6.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="XamlStyler.Console" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -39,9 +43,11 @@
   <ItemGroup>
     <Resource Include="Styles\shutdown_def.png" />
     <Resource Include="Styles\shutdown_mo.png" />
+    <Resource Include="Views\Events\defaultEventImage.png" />
     <Resource Include="Views\Events\SimonLeblanc-580x614.jpg" />
     <Resource Include="Views\RoomConfig\Salle.png" />
     <Resource Include="Views\Template\calendar.png" />
+    <Resource Include="Views\Template\Logo(1).png" />
     <Resource Include="Views\Template\report.png" />
     <Resource Include="Views\Template\setting.png" />
     <Resource Include="Views\Template\theater.png" />

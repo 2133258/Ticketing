@@ -16,6 +16,10 @@ namespace TicketingDatabase.Models
 
         [ForeignKey("Event")]
         public int EventId { get; set; }
-        public Event Event { get; set; }
+        public Event? Event { get; set; }
+
+        [Column("TicketId"), ForeignKey("Ticket")]
+        public int? TicketId { get; set; }
+        public Ticket? Ticket { get; set; }
     }
 }

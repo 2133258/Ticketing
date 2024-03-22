@@ -29,10 +29,9 @@ namespace AdministratorApp.ViewModels
         [ObservableProperty] private ObservableCollection<Sale> sales;
         [ObservableProperty] private Sale selectedSale;
 
-
         public async Task LoadSalesAsync()
         {
-            Sales = new ObservableCollection<Sale>(_context.Sales.Include(s => s.Transactions));
+            Sales = new ObservableCollection<Sale>(_context.Sales.Include(s => s.Transactions).ThenInclude(t => t.User));
         }
 
         [RelayCommand]

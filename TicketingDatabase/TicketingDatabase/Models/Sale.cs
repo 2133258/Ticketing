@@ -25,11 +25,10 @@ namespace TicketingDatabase.Models
         public double TotalPriceTax { get; set; }
 
         [Column("EventId"), ForeignKey("Event")]
-        public int EventId { get; set; }
+        public int? EventId { get; set; }
         public Event? Event { get; set; }
 
         public ObservableCollection<Transaction>? Transactions { get; set; }
 
-        public Sale() { }
     }
 }

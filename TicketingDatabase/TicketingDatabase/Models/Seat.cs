@@ -19,13 +19,11 @@ namespace TicketingDatabase.Models
         public string Description { get; set; }
         [Column("SeatIsAvailable")]
         public bool IsAvailable { get; set; }
+        [Column("SeatPrice")]
+        public double? Price { get; set; }
 
         [Column("RowId"), ForeignKey("Row")]
         public int RowId { get; set; }
         public Row? Row { get; set; }
-
-        [Column("TicketId"), ForeignKey("Ticket")]
-        public int TicketId { get; set; }
-        public Ticket? Ticket { get; set; }
     }
 }

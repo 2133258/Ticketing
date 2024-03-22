@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using GuichetAutonome.ViewModels;
 using GuichetAutonome.Views.Template;
 using TicketingDatabase.Data;
+using System.Text.RegularExpressions;
 
 namespace GuichetAutonome.Views
 {
@@ -78,6 +79,16 @@ namespace GuichetAutonome.Views
                 ErrorPassWord.Text = "";
             }
             
+        }
+
+        private void EmailTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            string pattern = @"^\w+[\w-\.]+\@\w{2,}(\.\w{2,})+$";
+            if (!Regex.IsMatch(EmailTextBox.Text, pattern) && EmailTextBox.Text != "")
+            {
+                MessageBox.Show("Entrez un adresse courriel valide. (exemple@exemple.ca)");
+                EmailTextBox.Text = "";
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using AdministratorApp;
+using AdministratorApp.Helpers.User;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TicketingDatabase.Data;
@@ -21,6 +22,8 @@ namespace AdministratorApp.ViewModels
         {
             _context = context;
             currentViews = new List<object>();
+            EventList(this);
+            User = UserService.connected;
         }
 
         [ObservableProperty]
@@ -52,7 +55,13 @@ namespace AdministratorApp.ViewModels
             CurrentViews.Add(CurrentView);
         }
         [RelayCommand] /* ---- SeatSelection ---- */
-        public void EventSeatSelection(EventVM vm)
+        public void EventRowsSelection(EventVM vm)
+        {
+            CurrentView = new Views.Events.RowsSelection(vm);
+            CurrentViews.Add(CurrentView);
+        }
+        [RelayCommand] /* ---- SeatSelection ---- */
+        public void EventSeatsSelection(EventVM vm)
         {
             CurrentView = new Views.Events.SeatsSelection(vm);
             CurrentViews.Add(CurrentView);

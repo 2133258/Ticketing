@@ -40,9 +40,9 @@ namespace TicketingDatabase.Data
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<User> ClientUsers { get; set; }
-        public DbSet<User> AdministratorUsers { get; set; }
-        public DbSet<User> AccountantUsers { get; set; }
+        public DbSet<Client> ClientUsers { get; set; }
+        public DbSet<Administrator> AdministratorUsers { get; set; }
+        public DbSet<Accountant> AccountantUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

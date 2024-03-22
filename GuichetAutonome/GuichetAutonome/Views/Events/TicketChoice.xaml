@@ -7,67 +7,112 @@
              xmlns:viewModels="clr-namespace:GuichetAutonome.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:EventVM}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
-    <Grid Margin="50">
+    <Grid Margin="40">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid>
-            <Border CornerRadius="20" BorderBrush="Green" BorderThickness="3" Height="700" Width="550">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" CornerRadius="20" BorderBrush="Green" BorderThickness="3" Height="700" Width="550">
                 <Border.Background>
                     <ImageBrush ImageSource="/Views/Events/Salle.png" >
                     </ImageBrush>
                 </Border.Background>
             </Border>
+            <Grid Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Selectionner une Section :" Opacity="1" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
+                <ComboBox Grid.Column="1" Margin="5"
+                          Text="Select Section"
+                          ItemsSource="{Binding Sections}"
+                          SelectedItem="{Binding SelectedSection}"
+                          Style="{StaticResource ComboBoxStyle}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <Grid Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Selectionner une Rangée :" Opacity="1" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
+                <ComboBox Grid.Column="1" Margin="5"
+                          HorizontalAlignment="Left"
+                          Text="Select Section"
+                          ItemsSource="{Binding SelectedSection.Rows}"
+                          SelectedItem="{Binding SelectedRow}"
+                          Style="{StaticResource ComboBoxStyle}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+            <Grid Row="4">
+                <Button Content="Retour" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"></Button>
+                <Button Content="Ajouter au panier" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" Style="{StaticResource AddButton}" Command="{Binding AddTicketsToCartCommand}"></Button>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ComboBox Margin="5"
-                          Text="Select Section"
-                          Foreground="White"
-                          ItemsSource="{Binding Sections}"
-                          SelectedItem="{Binding SelectedSection}"
-                          Style="{StaticResource ComboBoxStyle}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <ComboBox Margin="5"
-                          HorizontalAlignment="Right"
-                          Text="Select Section"
-                          Foreground="White"
-                          ItemsSource="{Binding SelectedSection.Rows}"
-                          SelectedItem="{Binding SelectedRow}"
-                          Style="{StaticResource ComboBoxStyle}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <ScrollViewer Grid.Row="1">
-                <ListView  Margin="20,0,0,0" ItemsSource="{Binding SelectedRow.Seats}" SelectedItem="{Binding SelectedSeat}" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItemTicket}">
+            <TextBlock Grid.Row="0" Text="Les Sièges Disponibles :" Opacity="1" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
+            <ListView Grid.Row="1" Margin="20,10,0,10"
+                      ItemsSource="{Binding SelectedRow.Seats}" 
+                      SelectedItem="{Binding SelectedSeat}" 
+                      Style="{StaticResource ListView}" 
+                      ItemContainerStyle="{StaticResource ListViewItemTicket}"
+                      ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
-                                <Button Content="Ajouter" HorizontalAlignment="Right" Style="{StaticResource AddButton}" Command="{Binding DataContext.AddSeatToListCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></Button>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                                <TextBlock Text="{Binding Price, StringFormat='{}{0:c}', ConverterCulture='fr-CA'}" HorizontalAlignment="Left" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                            </StackPanel>
+                            <Button Content="Ajouter" HorizontalAlignment="Right" Style="{StaticResource AddButton}" Command="{Binding DataContext.AddSeatToListCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"></Button>
                         </Grid>
-                        
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            </ScrollViewer>
-            
-            <ListView Grid.Row="2" Margin="20,0,0,0" ItemsSource="{Binding SelectedSection.Rows}" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItemTicket}">
+
+            <TextBlock Grid.Row="2" Text="Les Sièges Choisie :" Opacity="1" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
+            <ListView Grid.Row="3" Margin="20,10,0,10"
+                      ItemsSource="{Binding ChosenTickets}"
+                      Style="{StaticResource ListView}" 
+                      ItemContainerStyle="{StaticResource ListViewItemTicket}"
+                      ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Seat.Name}" HorizontalAlignment="Left" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                                <TextBlock Text="{Binding Price, StringFormat='{}{0:c}', ConverterCulture='fr-CA'}" HorizontalAlignment="Left" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                            </StackPanel>
+                            <Button Content="Retirer" HorizontalAlignment="Right" Style="{StaticResource DeleteButton}" Command="{Binding DataContext.RemoveSeatToListCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"></Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Button Content="Retour" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"></Button>
     </Grid>
 </UserControl>

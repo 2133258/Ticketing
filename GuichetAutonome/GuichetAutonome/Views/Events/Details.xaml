@@ -8,14 +8,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
     <UserControl.Resources>
-        <ImageBrush x:Key="EventImageBrush" ImageSource="/Views/Events/SimonLeblanc-580x614.jpg" Opacity="0.25"/>
+        <ImageBrush x:Key="EventImageBrush" ImageSource="/Views/Events/defaultEventImage.png" Opacity="0.25"/>
     </UserControl.Resources>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Row="0" Margin="10">
             <Grid.ColumnDefinitions>
@@ -40,12 +38,7 @@
                 </Grid>
             </Grid>
             <Grid Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                </Grid.RowDefinitions>
                 <Border CornerRadius="25" BorderBrush="Gray" BorderThickness="0" Margin="30,20" Height="535" Width="480" Background="{StaticResource EventImageBrush}"></Border>
-                <Button Grid.Row="1" Content="Vue d'ensemble de la salle" Style="{StaticResource CustomButton}"></Button>
             </Grid>
         </Grid>
         <Grid Row="1" Margin="25">
@@ -53,11 +46,50 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Height="100" Width="300" Tag="Nombre de Billets" Margin="0,0,20,0" Text="{Binding NbBillet}" Style="{StaticResource CustomTextBox}"></TextBox>
-            <Button Grid.Column="1" Content="Ajouter au panier" HorizontalAlignment="Left" Command="{Binding EventTicketChoiceCommand}" Style="{StaticResource AddButton}"></Button>
+            <Grid Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="1" Content="Choix de billets" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding EventTicketChoiceCommand}" Style="{StaticResource AddButton}"></Button>
+                <ComboBox Grid.Row="0" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="300"
+                          ItemsSource="{Binding SelectedEvent.EventDates}"
+                          SelectedItem="{Binding SelectedEventDate}"
+                          Style="{StaticResource ComboBoxStyle}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Date, StringFormat='{}{0:dd MMMM yyyy hh:mm}',ConverterCulture='fr-CA'}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Grid.Row="2" Content="Retour" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"></Button>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Panier :" Opacity="1" Margin="25,0" Style="{StaticResource Text_Style}"></TextBlock>
+                <ListView Grid.Row="1" Margin="20,10,0,10"
+                          ItemsSource="{Binding Cart}"
+                          Style="{StaticResource ListView}" 
+                          ItemContainerStyle="{StaticResource ListViewItemTicket}"
+                          ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding Event.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                                <TextBlock Text="{Binding Event.ArtistName}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                                <TextBlock Text="{Binding Price, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                                <TextBlock Text="{Binding SeatNumber}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" Style="{StaticResource Text_Style}"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
         </Grid>
-        <Grid Row="3">
-            <Button Content="Retour" HorizontalAlignment="Left" Style="{StaticResource CustomButton}" Command="{Binding GoBackCommand}"></Button>
-        </Grid>
+
     </Grid>
 </UserControl>

@@ -12,6 +12,7 @@ using AdministratorApp.Views.Template;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TicketingDatabase.Data;
 using TicketingDatabase.Models;
+using System.Windows;
 
 namespace AdministratorApp.ViewModels
 {
@@ -73,11 +74,23 @@ namespace AdministratorApp.ViewModels
         public async Task DeleteSection()
         {
             if (SelectedSection == null) return;
+            var message = $@"Les rangées et les sièges associés à cette section seront également supprimer.
 
-            if (!DeleteWindow("Voulez-vous vraiment supprimer cette section ?")) return; 
+Voulez-vous vraiment supprimer la {SelectedSection.Name}?";
+            if (!DeleteWindow(message, true, 550)) return;
+
+            // Explicitly remove rows and seats within those rows
+            var rowsToDelete = SelectedSection.Rows.ToList();
+            foreach (var row in rowsToDelete)
+            {
+                var seatsToDelete = row.Seats.ToList();
+                _context.Seats.RemoveRange(seatsToDelete); // Delete all seats within each row
+                _context.Rows.Remove(row); // Then delete the row itself
+            }
 
             _context.Sections.Remove(SelectedSection);
             RoomConfig.Sections.Remove(SelectedSection);
+
             await _context.SaveChangesAsync();
 
             SelectedSection = RoomConfig.Sections.FirstOrDefault();
@@ -93,10 +106,10 @@ namespace AdministratorApp.ViewModels
             {
                 Name = $"Rangée {SelectedSection.Rows.Count + 1}",
                 Description = "",
-                Capacity = 10,
                 Seats = new ObservableCollection<Seat>(),
+                IsAvailable = true,
             };
-            
+
             await _context.Rows.AddAsync(newRow);
             RoomConfig.Sections.First(s => s.Id == SelectedSection.Id).Rows.Add(newRow);
             await _context.SaveChangesAsync();
@@ -106,14 +119,23 @@ namespace AdministratorApp.ViewModels
         [RelayCommand]
         public async Task DeleteRow(object obj)
         {
-            if (obj is not Row) return;
+            if (obj is not Row row) return;
 
-            Row row = (Row)obj;
+            var message = $@"Les sièges associer à cette rangée seront également supprimer.
+
+Voulez-vous vraiment supprimer la {row.Name} ?";
+            if (!DeleteWindow(message, true, 550)) return;
+
+            // Directly remove seats in the row
+            _context.Seats.RemoveRange(row.Seats);
+
             _context.Rows.Remove(row);
-            RoomConfig.Sections.First(s => s.Id == SelectedSection.Id).Rows.Remove(row);
+            SelectedSection.Rows.Remove(row);
+
             await _context.SaveChangesAsync();
-            SelectedSection = SelectedSection;
+            SelectedSection = SelectedSection; // Refresh the selected section
         }
+
 
         [RelayCommand]
         public async Task AddEmptySeat()
@@ -124,6 +146,7 @@ namespace AdministratorApp.ViewModels
             {
                 Name = $"Siège {SelectedRow.Seats.Count + 1}",
                 Description = "",
+                IsAvailable = true,
             };
 
             await _context.Seats.AddAsync(newSeat);
@@ -135,14 +158,17 @@ namespace AdministratorApp.ViewModels
         [RelayCommand]
         public async Task DeleteSeat(object obj)
         {
-            if (obj is not Seat) return;
+            if (obj is not Seat seat) return;
 
-            Seat seat = (Seat)obj;
+            if (!DeleteWindow($"Voulez-vous vraiment supprimer le {seat.Name} ?", true, 450)) return;
+
             _context.Seats.Remove(seat);
-            RoomConfig.Sections.First(s => s.Id == SelectedSection.Id).Rows.First(r => r.Id == SelectedRow.Id).Seats.Remove(seat);
+            SelectedRow.Seats.Remove(seat);
+
             await _context.SaveChangesAsync();
-            SelectedRow = SelectedRow;
+            SelectedRow = SelectedRow; // Refresh the selected row
         }
+
 
         [RelayCommand]
         public void RoomEdit(object obj) => _nav.RoomEdit(this);
@@ -150,15 +176,32 @@ namespace AdministratorApp.ViewModels
         [RelayCommand]
         public void RowEdit(object obj)
         {
-            selectedRow = (Row)(obj);
-            _nav.RowCreateEdit(this);
+            if (obj is not null)
+            {
+                selectedRow = (Row)(obj);
+                _nav.RowCreateEdit(this);
+            }
         }
 
+        [ObservableProperty] Visibility isDeleteVisibility;
+        [ObservableProperty] Visibility isNotDeleteVisibility;
         [ObservableProperty] private string deleteMessage;
-        public bool DeleteWindow(string message)
+        [ObservableProperty] private double width;
+        public bool DeleteWindow(string message, bool isDelete, double width)
         {
+            if (isDelete)
+            {
+                IsDeleteVisibility = Visibility.Visible;
+                IsNotDeleteVisibility = Visibility.Collapsed;
+            }
+            else
+            {
+                IsDeleteVisibility = Visibility.Collapsed;
+                IsNotDeleteVisibility = Visibility.Visible;
+            }
             DeleteConfirmation view = new DeleteConfirmation(this);
             DeleteMessage = message;
+            Width = width;
             view.ShowDialog();
             return view.result;
         }

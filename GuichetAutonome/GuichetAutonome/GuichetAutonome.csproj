@@ -11,19 +11,25 @@
   <ItemGroup>
     <None Remove="Styles\shutdown_def.png" />
     <None Remove="Styles\shutdown_mo.png" />
+    <None Remove="Views\Events\defaultEventImage.png" />
     <None Remove="Views\Events\Salle.png" />
     <None Remove="Views\Events\SimonLeblanc-580x614.jpg" />
     <None Remove="Views\key-icon.png" />
+    <None Remove="Views\Logo%281%29.png" />
     <None Remove="Views\Template\calendar.png" />
     <None Remove="Views\Template\setting.png" />
+    <None Remove="Views\Template\shopping-cart.png" />
     <None Remove="Views\Template\transaction.png" />
+    <None Remove="Views\Template\user.png" />
     <None Remove="Views\user-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="MailKit" Version="3.6.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.16" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+    <PackageReference Include="QRCoder" Version="1.4.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,12 +41,16 @@
   <ItemGroup>
     <Resource Include="Styles\shutdown_def.png" />
     <Resource Include="Styles\shutdown_mo.png" />
+    <Resource Include="Views\Events\defaultEventImage.png" />
     <Resource Include="Views\Events\Salle.png" />
     <Resource Include="Views\Events\SimonLeblanc-580x614.jpg" />
     <Resource Include="Views\key-icon.png" />
+    <Resource Include="Views\Logo(1).png" />
     <Resource Include="Views\Template\calendar.png" />
     <Resource Include="Views\Template\setting.png" />
+    <Resource Include="Views\Template\shopping-cart.png" />
     <Resource Include="Views\Template\transaction.png" />
+    <Resource Include="Views\Template\user.png" />
     <Resource Include="Views\user-icon.png" />
   </ItemGroup>
 

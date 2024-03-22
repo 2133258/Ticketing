@@ -105,7 +105,7 @@
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0" Tag="Nom de l'évènement" Text="{Binding EventName}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
                 <TextBox Grid.Row="1" Tag="Nom de l'artiste" Text="{Binding ArtistName}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
-                <TextBox Grid.Row="2" Tag="Durée (En Minutes)" Text="{Binding Duration}" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
+                <TextBox Grid.Row="2" Tag="Durée (En Minutes)" x:Name="NumberTextBox" Text="{Binding Duration}" PreviewTextInput="ValidateNumberInput" TextChanged="NumberTextBox_TextChanged" Style="{StaticResource CustomTextBox}" Height="65" Width="275" HorizontalAlignment="Center"></TextBox>
             </Grid>
             <Grid Column="2" >
                 <Grid.RowDefinitions>
@@ -113,8 +113,8 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" Tag="Description" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Text="{Binding Description}" Style="{StaticResource CustomTextBox}" Height="155" Width="275" HorizontalAlignment="Center"></TextBox>
-                <Button Grid.Row="1" Content="Place disponible dans la salle" Style="{StaticResource CustomButton}" Command="{Binding EventSelectionSeatCommand}"></Button>
+                <TextBox Grid.Row="0" Tag="Description" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Text="{Binding Description}" Style="{StaticResource CustomDescriptionTextBox}" Height="200" Width="350" HorizontalAlignment="Center"></TextBox>
+                <Button Grid.Row="1" Content="Place disponible dans la salle" Style="{StaticResource CustomButton}" Command="{Binding EventRowSelectionCommand}"></Button>
                 <CheckBox Grid.Row="2" Content="Mettre à l'affiche" Margin="50,0" FontSize="16" FontWeight="Bold" IsChecked="{Binding IsActive}" Style="{StaticResource CustomCheckBox}"></CheckBox>
             </Grid>
         </Grid>
@@ -157,7 +157,7 @@
             <ListBox Style="{DynamicResource ListBoxStyle}" ItemsSource="{Binding EventDates}" SelectedItem="{Binding SelectedEventDate, Mode=TwoWay}" Grid.Column="2" Margin="20,10,20,20">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Date, StringFormat='{}{0:dd-MM-yyyy HH:mm}', ConverterCulture='fr-CA'}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
+                        <TextBlock Text="{Binding Date, StringFormat='{}{0:Le dd MMMM yyyy à HH:mm}', ConverterCulture='fr-CA'}" Margin="0" Style="{StaticResource Text_Style}"></TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

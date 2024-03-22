@@ -14,6 +14,8 @@ namespace TicketingDatabase.Models
         public int Id { get; set; }
         [Column("TicketPrice")]
         public double Price { get; set; }
+        [Column("SeatNumber")]
+        public string SeatNumber { get; set; }
         [Column("TicketStatus")]
         public string Status { get; set; }
         [Column("TicketQuoting")]
@@ -27,5 +29,8 @@ namespace TicketingDatabase.Models
         public int EventId { get; set; }
         public Event? Event { get; set; }
 
+        [Column("EventDateId"), ForeignKey("EventDate")]
+        public int EventDateId { get; set; }
+        public EventDate? EventDate { get; set; }
     }
 }

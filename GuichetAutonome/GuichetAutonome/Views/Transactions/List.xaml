@@ -6,27 +6,27 @@
              xmlns:local="clr-namespace:GuichetAutonome.Views.Transactions"
              xmlns:viewModels="clr-namespace:GuichetAutonome.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:TransactionVM}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="20,0,20,20">
+             d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox Grid.Column="0" Height="100"  Width="300" Tag="Recherche" Margin="25,20,50,10" HorizontalAlignment="Right" Style="{StaticResource CustomTextBox}"></TextBox>
-        <ListView Grid.Row="1" x:Name="ListView" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="NavDetails" />
-                    </Style>
-                </Border.Style>
-                <Grid>
-                    <TextBlock Grid.Column="0" Text="Du 15-02-2024 au 22-02-2024" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="Id : 4534335543365" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text="2109.65$" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
-                    <TextBlock Grid.Column="2" Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
-                </Grid>
-            </Border>
+        <ListView Grid.Row="1" x:Name="ListView" ItemsSource="{Binding Transactions}" Style="{StaticResource ListView}" ItemContainerStyle="{StaticResource ListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0" Background="Transparent" Tag="{Binding }">
+                        <Grid>
+                            <Button Grid.ColumnSpan="3" Tag="{Binding}" Command="{Binding DataContext.TransactionDetailsCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource ButtonList}"/>
+                            <TextBlock Text="{Binding Date, StringFormat='{}{0:Le dd MMMM yyyy à hh:mm}',ConverterCulture='fr-CA'}" Margin="20,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="{Binding Id}" Margin="20,10"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="{Binding TotalPriceTax, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource Text_Style}"></TextBlock>
+                            <TextBlock Text="William Savard" Margin="20,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Style="{StaticResource Text_Style}"></TextBlock>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
         </ListView>
     </Grid>
 </UserControl>

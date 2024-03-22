@@ -1,6 +1,7 @@
 ﻿using GuichetAutonome.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GuichetAutonome.Helpers.User;
 using TicketingDatabase.Data;
+using TicketingDatabase.Models;
 
 namespace GuichetAutonome.Views.Template
 {
@@ -41,37 +43,23 @@ namespace GuichetAutonome.Views.Template
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            if (UserService.cart.Count > 0)
+            {
+                foreach (Ticket ticket in UserService.cart)
+                {
+                    if (ticket.Status == "Purshasing")
+                    {
+                        _context.Tickets.FirstOrDefault(t => t.Id == ticket.Id).Status = "Available";
+                        _context.Tickets.Update(ticket);
+                    }
+                }
+                _context.SaveChangesAsync();
+            }
             Login login = new Login();
             UserService.connected = null;
-            login.Show();
+            UserService.cart = new ObservableCollection<Ticket>();
+            login.Show(); 
             this.Close();
-        }
-
-        bool IsMaximized = false;
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2)
-            {
-                if (IsMaximized)
-                {
-
-                    BorderWindow.CornerRadius = new CornerRadius(25);
-                    BorderWindow.Margin = new Thickness(5);
-                    this.WindowState = System.Windows.WindowState.Normal;
-                    this.Width = 1300;
-                    this.Height = 880;
-
-                    IsMaximized = false;
-                }
-                else
-                {
-                    BorderWindow.CornerRadius = new CornerRadius(0);
-                    BorderWindow.Margin = new Thickness(0);
-                    this.WindowState = System.Windows.WindowState.Maximized;
-
-                    IsMaximized = true;
-                }
-            }
         }
     }
 }

@@ -16,7 +16,7 @@
         AllowsTransparency="True">
             <Window.Resources>
     </Window.Resources>
-    <Border x:Name="BorderWindow" Background="#212529" CornerRadius="25"  MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+    <Border x:Name="BorderWindow" Background="#212529" CornerRadius="25"  MouseDown="Border_MouseDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="470"/>
@@ -33,15 +33,14 @@
                     CornerRadius="20,0,0,20" />
 
                 <StackPanel HorizontalAlignment="Right">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding ConnectedUser.UserName}" Style="{StaticResource Text_Style}"></TextBlock>
-                        <Button Margin="20,15" Cursor="Hand" Background="Transparent" BorderBrush="Transparent"
-                            FontWeight="Bold" FontSize="16"
-                            VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource ExitApp}" Click="Logout_Click">
-                        </Button>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Border Height="75" Width="95" HorizontalAlignment="Left" Margin="20,10">
+                            <Border.Background>
+                                <ImageBrush ImageSource="/Views/Logo(1).png"></ImageBrush>
+                            </Border.Background>
+                        </Border>
+                        <TextBlock Text="Théatre Cchic" Style="{StaticResource Text_Style}" Margin="20" TextWrapping="Wrap"></TextBlock>
                     </StackPanel>
-
-
                     <RadioButton Style="{StaticResource MenuButton}"
                      Command="{Binding EventListCommand}" IsChecked="True">
                         <Grid>
@@ -52,9 +51,9 @@
                         </Grid>
                     </RadioButton>
                     <RadioButton Style="{StaticResource MenuButton}"
-                     Command="{Binding CartDetailsCommand}">
+                     Command="{Binding CartDetailsCommand}" IsChecked="{Binding CartIsChecked}">
                         <Grid>
-                            <Image Style="{StaticResource Image_Style}" Source="/Views/Template/theater.png">
+                            <Image Style="{StaticResource Image_Style}" Source="/Views/Template/shopping-cart.png">
                             </Image>
 
                             <TextBlock Text="Panier" Style="{StaticResource Text_Style}" />
@@ -63,7 +62,7 @@
                     <RadioButton Style="{StaticResource MenuButton}"
                      Command="{Binding AccountDetailsCommand}">
                         <Grid>
-                            <Image Style="{StaticResource Image_Style}" Source="/Views/Template/report.png"  >
+                            <Image Style="{StaticResource Image_Style}" Source="/Views/Template/user.png"  >
                             </Image>
 
                             <TextBlock Text="Gerer Compte" Style="{StaticResource Text_Style}" />
@@ -86,6 +85,13 @@
                             <TextBlock Text="Paramètres" Style="{StaticResource Text_Style}" />
                         </Grid>
                     </RadioButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="50,10">
+                    <TextBlock Text="{Binding ConnectedUser.UserName}" Style="{StaticResource Text_Style}" Margin="50,0" TextWrapping="Wrap"></TextBlock>
+                    <Button Margin="-15,15,0,15" Cursor="Hand" Background="Transparent" BorderBrush="Transparent"
+                            FontWeight="Bold" FontSize="16"
+                            VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource ExitApp}" Click="Logout_Click">
+                    </Button>
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1">

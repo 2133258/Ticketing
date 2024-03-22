@@ -20,8 +20,16 @@ namespace TicketingDatabase.Models
         public string Description { get; set; }
         [Column("EventArtistName")]
         public string ArtistName { get; set; }
+        [Column("EventDuration")]
+        public int Duration { get; set; }
         [Column("EventIsActive")]
         public bool IsActive { get; set; }
+        [Column("EventStartingDate")]
+        public DateTime? StartingDate { get; set; }
+        [Column("EventEndingDate")]
+        public DateTime? EndingDate { get; set; }
+        [Column("EventImageSource")]
+        public string? ImageSource { get; set; }
 
         [Column("RoomId"), ForeignKey("Room")]
         public int? RoomId { get; set; }
@@ -30,8 +38,6 @@ namespace TicketingDatabase.Models
         public ObservableCollection<Ticket>? Tickets { get; set; }
         public ObservableCollection<Sale>? Sales { get; set; }
         public ObservableCollection<EventDate>? EventDates { get; set; }
-        [NotMapped]
-        public string ImageSource { get; set; }
 
     }
 }

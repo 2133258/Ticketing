@@ -4,12 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GuichetAutonome.Views.Cart"
+             xmlns:helpers="clr-namespace:GuichetAutonome.Helpers"
              xmlns:viewModels="clr-namespace:GuichetAutonome.ViewModels" d:DataContext="{d:DesignInstance Type=viewModels:CartVM}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Style="{StaticResource Page_Style}">
     <Grid Margin="25">
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" CornerRadius="25" Margin="15,25" Background="Transparent" VerticalAlignment="Top">
@@ -20,22 +23,30 @@
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
                         <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="5*"/>
                         <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="0" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="10">
-                        <Label Content="Nom de l'evenement" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
+                        <Label Content="Évènement" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
                     </Border>
                     <Border Grid.Column="1" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="10">
-                        <Label Content="Numero du siege" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
+                        <Label Content="Artiste" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
                     </Border>
-                    <Border Grid.Column="2" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin=" 10">
+                    <Border Grid.Column="2" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="10">
+                        <Label Content="Date" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
+                    </Border>
+                    <Border Grid.Column="3" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="10">
+                        <Label Content="Siège" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
+                    </Border>
+                    <Border Grid.Column="4" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin=" 10">
                         <Label Content="Prix" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
                     </Border>
                 </Grid>
                 <Border Grid.Row="1">
-                    <ListView x:Name="ListViewClient" ItemsSource="{Binding Tickets}"
+                    <ListView x:Name="ListViewClient" ItemsSource="{Binding Tickets}" MaxHeight="700"
                        Background="Transparent" BorderBrush="Transparent" Margin="-1">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -78,16 +89,20 @@
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Border Grid.Column="0" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="15,0">
+                                <Border Grid.Column="0" Background="#272B2F" BorderBrush="Transparent" CornerRadius="20" Height="65" Margin="5,0">
                                     <Grid Margin="0">
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="6*"/>
                                             <ColumnDefinition Width="4*"/>
+                                            <ColumnDefinition Width="5*"/>
                                             <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="3*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Content="Leblanc deja" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
-                                        <Label Grid.Column="1" Content="2512" HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0"></Label>
-                                        <Label Grid.Column="2" Content="22.25$"  HorizontalContentAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" HorizontalAlignment="Right" Margin="20,0"></Label>
+                                        <TextBlock Grid.Column="0" Text="{Binding Event.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" MaxWidth="250" TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock Grid.Column="1" Text="{Binding Event.ArtistName}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" MaxWidth="250" TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock Grid.Column="2" Text="{Binding EventDate.Date, StringFormat='{}{0:dd MMMM yyyy}', ConverterCulture='fr-CA'}" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="150" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" Margin="20,0" TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock Grid.Column="3" Text="{Binding SeatNumber}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" MaxWidth="150" TextWrapping="Wrap"></TextBlock>
+                                        <TextBlock Grid.Column="4" Text="{Binding Price,  StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Foreground="#DBDBDB" MaxWidth="150" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -97,7 +112,37 @@
             </Grid>
         </Border>
         <Grid Row="1">
-            <Button Content="Passer la commande" HorizontalAlignment="Right" Style="{StaticResource AddButton}"></Button>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Total :" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="22" Margin="10" Style="{StaticResource Text_Style}"/>
+                <TextBlock Grid.Row="1" Text="TPS :" HorizontalAlignment="Right" FontSize="22" Margin="10" Style="{StaticResource Text_Style}"/>
+                <TextBlock Grid.Row="2" Text="TVQ :" HorizontalAlignment="Right" FontSize="22" Margin="10" Style="{StaticResource Text_Style}"/>
+                <TextBlock Grid.Row="3" Text="Total après taxes :" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="22" Margin="10" Style="{StaticResource Text_Style}"/>
+            </Grid>
+            <Grid Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="{Binding TotalPrice, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="22" Margin="10,10,30,10" Style="{StaticResource Text_Style}"/>
+                <TextBlock Grid.Row="1" Text="{Binding TPS, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" HorizontalAlignment="Right" FontSize="22" Margin="10,10,30,10" Style="{StaticResource Text_Style}"/>
+                <TextBlock Grid.Row="2" Text="{Binding TVQ, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" HorizontalAlignment="Right" FontSize="22" Margin="10,10,30,10" Style="{StaticResource Text_Style}"/>
+                <TextBlock Grid.Row="3" Text="{Binding TotalPriceTaxes, StringFormat='{}{0:C}', ConverterCulture='fr-CA'}" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="22" Margin="10,10,30,10" Style="{StaticResource Text_Style}"/>
+            </Grid>
+        </Grid>
+        <Grid Row="3">
+            <Button Content="Passer la commande" HorizontalAlignment="Right" Style="{StaticResource AddButton}" Command="{Binding CartPaymentCommand}"></Button>
         </Grid>
     </Grid>
 </UserControl>

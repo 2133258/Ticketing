@@ -40,6 +40,9 @@ namespace AdministratorApp.ViewModels
 
         [ObservableProperty] ObservableCollection<Event> events;
         [ObservableProperty] Event selectedEvent;
+        [ObservableProperty] DateTime? startingDateEvent;
+        [ObservableProperty] DateTime? endDateEvent;
+
 
         [ObservableProperty] string eventName;
         [ObservableProperty] private string artistName;
@@ -65,6 +68,7 @@ namespace AdministratorApp.ViewModels
         [ObservableProperty] private Section selectedSectionRoom;
         [ObservableProperty] private Row selectedRow;
 
+        [ObservableProperty] ObservableCollection<Ticket> tickets;
 
         public async Task LoadRoomConfigAsync()
         {
@@ -115,38 +119,166 @@ namespace AdministratorApp.ViewModels
 
         public async Task AddEventAsync()
         {
-            Event newEvent = new Event();
-            newEvent.Name = eventName;
-            newEvent.ArtistName = artistName;
-            newEvent.Description = description;
-            newEvent.IsActive = isActive;
-            newEvent.EventDates = new ObservableCollection<EventDate>(EventDates);
-            newEvent.Room = Room;
-            Events.Add(newEvent);
+            Event newEvent = new Event
+            {
+                Name = eventName,
+                ArtistName = artistName,
+                Description = description,
+                Duration = duration,
+                IsActive = isActive,
+                EventDates = new ObservableCollection<EventDate>(EventDates.OrderBy(e => e.Date)),
+                StartingDate = EventDates.First().Date,
+                EndingDate = EventDates.Last().Date,
+                Room = Room
+            };
+
             await _context.Events.AddAsync(newEvent);
+
             await _context.SaveChangesAsync();
+
+            var tickets = new List<Ticket>();
+            int sectionCount = 0;
+            foreach (Section roomSection in newEvent.Room.Sections)
+            {
+                sectionCount++;
+                int rowCount = 0;
+                foreach (Row roomSectionRow in roomSection.Rows)
+                {
+                    rowCount++;
+                    int seatCount = 0;
+                    foreach (Seat seat in roomSectionRow.Seats.Where(s => s.IsAvailable))
+                    {
+                        seatCount++;
+                        string seatNumber = $"{sectionCount}{rowCount:D2}{seatCount:D2}";
+
+                        int quoting = sectionCount + rowCount + seatCount;
+
+                        foreach (EventDate eventDate in newEvent.EventDates)
+                        {
+                            var ticket = new Ticket
+                            {
+                                EventId = newEvent.Id,
+                                SeatId = seat.Id,
+                                Price = seat.Price.HasValue ? seat.Price.Value : 0,
+                                Status = "Available",
+                                SeatNumber = seatNumber,
+                                Quoting = quoting,
+                                EventDateId = eventDate.Id,
+                                EventDate = eventDate,
+                            };
+
+                            tickets.Add(ticket);
+                        }
+                    }
+                }
+            }
+
+            await _context.Tickets.AddRangeAsync(tickets);
+
+            await _context.SaveChangesAsync();
+
             _nav.EventList(this);
         }
 
         public async Task UpdateEventAsync()
         {
-            if (SelectedEvent != null)
+            var existingEvent = await _context.Events
+                .Include(e => e.Room)
+                    .ThenInclude(r => r.Sections)
+                        .ThenInclude(s => s.Rows)
+                            .ThenInclude(row => row.Seats)
+                .Include(e => e.Tickets)
+                .FirstOrDefaultAsync(e => e.Id == SelectedEvent.Id);
+
+            if (existingEvent == null) return;
+
+            existingEvent.Name = eventName;
+            existingEvent.ArtistName = artistName;
+            existingEvent.Duration = duration;
+            existingEvent.Description = description;
+            existingEvent.IsActive = isActive;
+            existingEvent.EventDates = new ObservableCollection<EventDate>(EventDates);
+            existingEvent.StartingDate = EventDates.First().Date;
+            existingEvent.EndingDate = EventDates.Last().Date;
+            existingEvent.Room = Room;
+
+            var newDates = EventDates.Where(nd => existingEvent.EventDates.All(ed => ed.Date != nd.Date)).ToList();
+            var removedDates = existingEvent.EventDates.Where(ed => EventDates.All(nd => nd.Date != ed.Date)).ToList();
+            foreach (var date in newDates)
             {
-                var eventToUpdate = await _context.Events.FirstOrDefaultAsync(e => e.Id == SelectedEvent.Id);
-                if (eventToUpdate != null)
+                existingEvent.EventDates.Add(date);
+            }
+            foreach (var date in removedDates)
+            {
+                existingEvent.EventDates.Remove(date);
+                var ticketsToRemove = existingEvent.Tickets.Where(t => t.EventDate.Date == date.Date).ToList();
+                foreach (var ticket in ticketsToRemove)
                 {
-                    // Update properties
-                    SelectedEvent.Name = EventName;
-                    SelectedEvent.ArtistName = ArtistName;
-                    SelectedEvent.Description = Description;
-                    SelectedEvent.IsActive = isActive;
-                    SelectedEvent.ImageSource = "";
-                    SelectedEvent.Room = Room;
-                    _context.Events.Update(eventToUpdate);
-                    await _context.SaveChangesAsync();
-                    _nav.EventList(this);
+                    _context.Tickets.Remove(ticket);
                 }
             }
+            int sectionCount = 0;
+            foreach (var section in SelectedEvent.Room.Sections)
+            {
+                sectionCount++;
+                int rowCount = 0;
+                foreach (var row in section.Rows)
+                {
+                    rowCount++;
+                    int seatCount = 0;
+                    foreach (var updatedSeat in row.Seats)
+                    {
+                        seatCount++;
+                        var existingSeat = existingEvent.Room.Sections
+                            .SelectMany(s => s.Rows)
+                            .SelectMany(r => r.Seats)
+                            .FirstOrDefault(s => s.Id == updatedSeat.Id);
+
+                        if (existingSeat != null)
+                        {
+                            _context.Entry(existingSeat).CurrentValues.SetValues(updatedSeat);
+
+                            var existingTicket = existingEvent.Tickets.FirstOrDefault(t => t.SeatId == updatedSeat.Id);
+                            if (updatedSeat.IsAvailable && existingTicket == null)
+                            {
+                                string seatNumber = $"{sectionCount}{rowCount:D2}{seatCount:D2}";
+
+                                int quoting = sectionCount + rowCount + seatCount;
+                                foreach (var eventDate in existingEvent.EventDates)
+                                {
+                                    var newTicket = new Ticket
+                                    {
+                                        EventId = existingEvent.Id,
+                                        SeatId = updatedSeat.Id,
+                                        Price = updatedSeat.Price.HasValue ? updatedSeat.Price.Value : 0,
+                                        Status = "Available",
+                                        SeatNumber = seatNumber,
+                                        Quoting = quoting,
+                                        EventDateId = eventDate.Id,
+                                        EventDate = eventDate
+                                    };
+                                    _context.Tickets.Add(newTicket);
+                                }
+                            }
+                            else if (updatedSeat.IsAvailable && existingTicket != null)
+                            {
+                                if (existingTicket.Price != updatedSeat.Price)
+                                {
+                                    existingTicket.Price = updatedSeat.Price.HasValue ? updatedSeat.Price.Value : 0;
+                                }
+                            }
+                            else if (!updatedSeat.IsAvailable && existingTicket != null)
+                            {
+                                _context.Tickets.Remove(existingTicket);
+                            }
+                        }
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            _nav.EventList(this);
         }
 
         [RelayCommand]
@@ -154,21 +286,38 @@ namespace AdministratorApp.ViewModels
         {
             if (selectedEvent != null)
             {
+                if (!DeleteWindow("Voulez-vous vraiment supprimer cette évènement " + "(" + SelectedEvent.Name + ")" + " ?",true, 450)){ return; }
+                if (SelectedEvent.IsActive)
+                {
+                    string message = $@"Confirmation de suppression d'événement
+Vous êtes sur le point de supprimer l'événement : «{SelectedEvent.Name}», qui est actuellement actif et en cours de vente.
+
+Veuillez noter que la suppression de cet événement entraînera les conséquences suivantes :
+- Arrêt immédiat de la vente de billets pour cet événement.
+- Remboursement obligatoire de tous les billets déjà vendus, ce qui pourrait entraîner des complications et des coûts transactionnels.
+
+Nous vous recommandons de réévaluer cette décision ou de prendre les mesures nécessaires pour minimiser l'impact sur votre organisation et sur les participants.
+
+Êtes-vous certain de vouloir procéder à la suppression de cet événement actif ?";
+                    if (!DeleteWindow(message,true, 750)) { return; }
+                }
+
+                foreach (var section in selectedEvent.Room.Sections)
+                {
+                    foreach (var row in section.Rows)
+                    {
+                        _context.Seats.RemoveRange(row.Seats);
+                    }
+                    _context.Rows.RemoveRange(section.Rows);
+                }
+                _context.Sections.RemoveRange(selectedEvent.Room.Sections);
+
+                _context.Rooms.Remove(selectedEvent.Room);
+
                 Events.Remove(selectedEvent);
                 _context.Events.Remove(selectedEvent);
                 await _context.SaveChangesAsync();
                 _nav.EventList(this);
-            }
-        }
-
-        public async Task AssignTicketToSeat(int seatId, Ticket ticket)
-        {
-            var seat = await _context.Seats.FirstOrDefaultAsync(s => s.Id == seatId);
-            if (seat != null && seat.IsAvailable)
-            {
-                seat.IsAvailable = false;
-                _context.Tickets.Add(ticket);
-                await _context.SaveChangesAsync();
             }
         }
         
@@ -181,7 +330,6 @@ namespace AdministratorApp.ViewModels
                 eventDateTime.Date = new DateTime(SelectedDate.Value.Year, SelectedDate.Value.Month,
                     SelectedDate.Value.Day, SelectedHour, SelectedMinute, 0);
                 EventDates.Add(eventDateTime);
-                //Mettre la liste en ordre de date a chaque ajout
                 EventDates = new ObservableCollection<EventDate>(EventDates.OrderBy(d => d.Date));
             }
         }
@@ -192,7 +340,6 @@ namespace AdministratorApp.ViewModels
             if (SelectedEventDate != null)
             {
                 EventDates.Remove(SelectedEventDate);
-                SelectedEventDate = null; // Optionally clear selection
             }
         }
 
@@ -216,6 +363,7 @@ namespace AdministratorApp.ViewModels
             };
 
             var sections = new ObservableCollection<Section>();
+            var tickets = new ObservableCollection<Ticket>();
 
             foreach (Section roomConfigSection in RoomConfig.Sections)
             {
@@ -224,7 +372,7 @@ namespace AdministratorApp.ViewModels
                     Name = roomConfigSection.Name,
                     Description = roomConfigSection.Description,
                     Capacity = roomConfigSection.Capacity,
-                    Rows = new ObservableCollection<Row>() // Create a new collection for rows
+                    Rows = new ObservableCollection<Row>()
                 };
 
                 foreach (Row roomConfigRow in roomConfigSection.Rows)
@@ -235,25 +383,25 @@ namespace AdministratorApp.ViewModels
                         Description = roomConfigRow.Description,
                         Capacity = roomConfigRow.Capacity,
                         IsAvailable = roomConfigRow.IsAvailable,
-                        Seats = new ObservableCollection<Seat>() // Create a new collection for seats
+                        Seats = new ObservableCollection<Seat>()
                     };
 
                     foreach (Seat roomConfigSeat in roomConfigRow.Seats)
                     {
-                        newRow.Seats.Add(new Seat()
+                        var seat = new Seat()
                         {
                             Name = roomConfigSeat.Name,
                             Description = roomConfigSeat.Description,
                             IsAvailable = roomConfigSeat.IsAvailable,
-                        });
+                            Price = 27.99,
+                        };
+                        newRow.Seats.Add(seat);
                     }
-
-                    newSection.Rows.Add(newRow); // Add the new row to the section
+                    newSection.Rows.Add(newRow);
                 }
-
-                sections.Add(newSection); // Add the new section to the room
+                sections.Add(newSection);
             }
-            Room.Sections = sections; // Assign the sections to the room
+            Room.Sections = sections; 
             createEditButtonName = "Créer l'évènement";
             _nav.EventCreateEdit(this); 
             createEditVisibility = Visibility.Collapsed;
@@ -262,29 +410,64 @@ namespace AdministratorApp.ViewModels
         [RelayCommand]
         public async Task EventEdit(object obj)
         {
-            _isModify = true;
-            SelectedEvent = (Event)(obj);
-            EventName = SelectedEvent.Name;
-            ArtistName = SelectedEvent.ArtistName;
-            Duration = 75;
-            Description = SelectedEvent.Description;
-            EventDates = new ObservableCollection<EventDate>(await _context.EventDates.Where(ed => ed.EventId == selectedEvent.Id).ToListAsync());
-            Room = SelectedEvent.Room;
-            createEditButtonName = "Modifier l'évènement";
-            _nav.EventCreateEdit(this);
-            createEditVisibility = Visibility.Visible;
+            try
+            {
+                _isModify = true;
+                SelectedEvent = (Event)(obj);
+                EventName = SelectedEvent.Name;
+                ArtistName = SelectedEvent.ArtistName;
+                Duration = SelectedEvent.Duration;
+                Description = SelectedEvent.Description;
+                IsActive = SelectedEvent.IsActive;
+                EventDates = new ObservableCollection<EventDate>(await _context.EventDates.Where(ed => ed.EventId == selectedEvent.Id).ToListAsync());
+                Room = SelectedEvent.Room;
+                createEditButtonName = "Modifier l'évènement";
+                _nav.EventCreateEdit(this);
+                createEditVisibility = Visibility.Visible;
+            }
+            catch (Exception e)
+            {
+                return;
+            }
         }
 
         [RelayCommand]
-        public void EventSelectionSeat(object obj) => _nav.EventSeatSelection(this);
+        public void EventRowSelection(object obj)
+        {
+            _nav.EventRowsSelection(this);
+        }
+
+        [RelayCommand]
+        public void EventSeatSelection(object obj)
+        {
+            if (obj is not null)
+            {
+                SelectedRow = (Row)(obj);
+                _nav.EventSeatsSelection(this);
+            }
+        }
 
         #endregion
 
-        [ObservableProperty] private string deleteMessage;
-        public bool DeleteWindow(string message)
+        [ObservableProperty] Visibility isDeleteVisibility;
+        [ObservableProperty] Visibility isNotDeleteVisibility;
+        [ObservableProperty] private string deleteMessage; 
+        [ObservableProperty] private double width;
+        public bool DeleteWindow(string message, bool isDelete, double width)
         {
+            if (isDelete)
+            {
+                IsDeleteVisibility = Visibility.Visible;
+                IsNotDeleteVisibility = Visibility.Collapsed;
+            }
+            else
+            {
+                IsDeleteVisibility = Visibility.Collapsed;
+                IsNotDeleteVisibility = Visibility.Visible;
+            }
             DeleteConfirmation view = new DeleteConfirmation(this);
             DeleteMessage = message;
+            Width = width;
             view.ShowDialog();
             return view.result;
         }

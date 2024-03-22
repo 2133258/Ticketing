@@ -118,7 +118,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Border BorderThickness="0" BorderBrush="Transparent" CornerRadius="20" Grid.Row="1">
+                        <Border BorderThickness="0" BorderBrush="Transparent" CornerRadius="20" Grid.Row="1" >
                             <Border BorderThickness="0" 
                                     BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="20">
                                 <Border Background="#272B2F" CornerRadius="20">
@@ -126,7 +126,7 @@
                                 </Border>
                             </Border>
                         </Border>
-                        <TabPanel Grid.Row="0" IsItemsHost="true"/>
+                        <TabPanel Grid.Row="0" IsItemsHost="true" Margin="0,0,220,0"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
